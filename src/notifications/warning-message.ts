@@ -47,6 +47,6 @@ export default {
     browserProviderDropOfPerformance:   'We detected \'{browserName}\' runs slowly. Try to free up or allocate more system resources on its host machine.',
     testsCompilationTakesTooLong:       'Tests took too long to compile ({compileTime}). Ensure the test code has no excessive imports.',
     deprecatedAPI:                      '{API} is deprecated and will be removed in the next major release. Use {replacement} instead.',
-    multipleConfigurationFilesFound:    'There are multiple configuration files found, TestCafe will only use one. The priority order is as follows:\n1. .testcafe.js\n2. .testcafe.json',
+    multipleConfigurationFilesFound:    'There are multiple configuration files found, TestCafe will only use one. The priority order is as follows:\n{priorityList}',
 };
 
