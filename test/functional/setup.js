@@ -227,6 +227,7 @@ before(function () {
                     disableMultipleWindows,
                     pageRequestTimeout,
                     ajaxRequestTimeout,
+                    hooks,
                 } = opts;
 
                 const actualBrowsers = browsersInfo.filter(browserInfo => {
@@ -291,6 +292,7 @@ before(function () {
                         disableMultipleWindows,
                         pageRequestTimeout,
                         ajaxRequestTimeout,
+                        hooks,
                     })
                     .then(failedCount => {
                         if (customReporters)
