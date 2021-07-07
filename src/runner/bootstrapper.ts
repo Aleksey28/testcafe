@@ -32,6 +32,7 @@ import { BootstrapperInit, BrowserSetOptions } from './interfaces';
 import WarningLog from '../notifications/warning-log';
 import WARNING_MESSAGES from '../notifications/warning-message';
 import guardTimeExecution from '../utils/guard-time-execution';
+import { Hooks } from '../configuration/interfaces';
 
 const DEBUG_SCOPE = 'testcafe:bootstrapper';
 
@@ -93,6 +94,7 @@ export default class Bootstrapper {
     public disableMultipleWindows: boolean;
     public compilerOptions?: CompilerOptions;
     public browserInitTimeout?: number;
+    public hooks?: Hooks;
 
     private readonly compilerService?: CompilerService;
     private readonly debugLogger: debug.Debugger;
