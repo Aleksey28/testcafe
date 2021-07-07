@@ -48,6 +48,7 @@ enum OptionNames {
     ajaxRequestTimeout = 'ajaxRequestTimeout',
     cache = 'cache',
     userVariables = 'userVariables',
+    hooks = 'hooks',
 }
 
 export default OptionNames;
