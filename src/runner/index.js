@@ -469,6 +469,7 @@ export default class Runner extends EventEmitter {
         this.bootstrapper.disableMultipleWindows = this.configuration.getOption(OPTION_NAMES.disableMultipleWindows);
         this.bootstrapper.compilerOptions        = this.configuration.getOption(OPTION_NAMES.compilerOptions);
         this.bootstrapper.browserInitTimeout     = this.configuration.getOption(OPTION_NAMES.browserInitTimeout);
+        this.bootstrapper.hooks                  = this.configuration.getOption(OPTION_NAMES.hooks);
     }
 
     async _prepareClientScripts (tests, clientScripts) {
