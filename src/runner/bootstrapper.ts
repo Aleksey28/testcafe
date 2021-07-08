@@ -34,6 +34,7 @@ import WarningLog from '../notifications/warning-log';
 import WARNING_MESSAGES from '../notifications/warning-message';
 import guardTimeExecution from '../utils/guard-time-execution';
 import { Hooks } from '../configuration/interfaces';
+import wrapTestFunction from '../api/wrap-test-function';
 
 const DEBUG_SCOPE = 'testcafe:bootstrapper';
 
@@ -189,13 +190,12 @@ export default class Bootstrapper {
         return compiler.getTests();
     }
 
-    private _setGlobalHooksToTest (tests: Test[]): Test[] {
-        const fixtureBefore = this.hooks?.fixture?.before || null;
-        const fixtureAfter = this.hooks?.fixture?.after || null;
-
+    private _setGlobalHooksToTests (tests: Test[]): Test[] {
         return tests.map(item => {
-            item.fixture.globalBeforeFn = fixtureBefore;
-            item.fixture.globalAfterFn = fixtureAfter;
+            item.fixture.globalBeforeFn = this.hooks?.fixture?.before || null;
+            item.fixture.globalAfterFn = this.hooks?.fixture?.after || null;
+            item.globalBeforeFn = this.hooks?.test?.before ? wrapTestFunction(this.hooks.test.before) : null;
+            item.globalAfterFn = this.hooks?.test?.after ? wrapTestFunction(this.hooks.test.after) : null;
 
             return item;
         });
@@ -234,7 +234,7 @@ export default class Bootstrapper {
         if (!tests.length)
             throw new GeneralError(RUNTIME_ERRORS.noTestsToRunDueFiltering);
 
-        tests = this._setGlobalHooksToTest(tests);
+        tests = this._setGlobalHooksToTests(tests);
 
         return tests;
     }
