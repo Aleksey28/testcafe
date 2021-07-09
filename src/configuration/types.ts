@@ -18,7 +18,7 @@ interface Hook {
 }
 
 interface HooksValue {
-    runTest?: Hook;
+    testRun?: Hook;
     fixture?: Hook;
     test?: Hook;
 }
