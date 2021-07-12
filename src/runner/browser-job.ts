@@ -12,6 +12,7 @@ import { Dictionary } from '../configuration/interfaces';
 import BrowserJobResult from './browser-job-result';
 import CompilerService from '../services/compiler/host';
 import { BrowserJobInit } from './interfaces';
+import TestRunHookController from './test-run-hook-controller';
 
 interface BrowserJobResultInfo {
     status: BrowserJobResult;
@@ -34,6 +35,7 @@ export default class BrowserJob extends AsyncEventEmitter {
     private readonly _connectionErrorListener: (error: Error) => void;
     private readonly _completionQueue: TestRunController[];
     private _resolveWaitingLastTestInFixture: Function | null;
+    private readonly _testRunHook: TestRunHookController;
 
     public constructor ({
         tests,
@@ -58,6 +60,7 @@ export default class BrowserJob extends AsyncEventEmitter {
         this.warningLog            = warningLog;
         this.fixtureHookController = fixtureHookController;
         this._result               = null;
+        this._testRunHook          = new TestRunHookController(tests, (opts.hooks as HooksValue)?.testRun);
 
         this._testRunControllerQueue = tests.map((test, index) => this._createTestRunController(test, index, compilerService));
 
@@ -81,6 +84,7 @@ export default class BrowserJob extends AsyncEventEmitter {
             fixtureHookController: this.fixtureHookController,
             opts:                  this._opts,
             compilerService,
+            testRunHook:           this._testRunHook,
         });
 
         testRunController.on('test-run-create', async testRunInfo => {

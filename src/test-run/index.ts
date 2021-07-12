@@ -205,6 +205,7 @@ export default class TestRun extends AsyncEventEmitter {
     public controller: TestController | null;
     public ctx: object;
     public fixtureCtx: object | null;
+    public testRunCtx: object | null;
     private currentRoleId: string | null;
     private readonly usedRoleStates: Record<string, any>;
     public errs: TestRunErrorFormattableAdapter[];
@@ -267,6 +268,7 @@ export default class TestRun extends AsyncEventEmitter {
         this.controller = null;
         this.ctx        = Object.create(null);
         this.fixtureCtx = null;
+        this.testRunCtx = null;
 
         this.currentRoleId  = null;
         this.usedRoleStates = Object.create(null);
@@ -1189,6 +1191,7 @@ export default class TestRun extends AsyncEventEmitter {
         else {
             this.ctx        = Object.create(null);
             this.fixtureCtx = Object.create(null);
+            this.testRunCtx = Object.create(null);
         }
     }
 

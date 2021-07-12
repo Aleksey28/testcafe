@@ -11,6 +11,7 @@ import { Dictionary } from '../configuration/interfaces';
 import FixtureHookController from './fixture-hook-controller';
 import Screenshots from '../screenshots';
 import Capturer from '../screenshots/capturer';
+import TestRunHookController from './test-run-hook-controller';
 
 export interface ActionEventArg {
     apiActionName: string;
@@ -80,6 +81,7 @@ export interface TestRunControllerInit {
     warningLog: WarningLog;
     fixtureHookController: FixtureHookController;
     opts: Dictionary<OptionValue>;
+    testRunHook: TestRunHookController;
     compilerService?: CompilerService;
 }
 
