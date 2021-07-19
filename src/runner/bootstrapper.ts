@@ -3,6 +3,9 @@ import fs from 'fs';
 import {
     chunk,
     times,
+    union,
+    castArray,
+    flattenDeep as flatten,
 } from 'lodash';
 
 import makeDir from 'make-dir';
@@ -34,6 +37,7 @@ import WARNING_MESSAGES from '../notifications/warning-message';
 import guardTimeExecution from '../utils/guard-time-execution';
 import wrapTestFunction from '../api/wrap-test-function';
 import { assertType, is } from '../errors/runtime/type-assertions';
+import assertRequestHookType from '../api/request-hooks/assert-type';
 
 const DEBUG_SCOPE = 'testcafe:bootstrapper';
 
@@ -201,6 +205,9 @@ export default class Bootstrapper {
 
         if (this.hooks?.test?.after)
             assertType(is.function, 'globalAfter', 'The test.globalAfter hook', this.hooks.test.after);
+
+        if (this.hooks?.request)
+            assertRequestHookType(flatten(castArray(this.hooks.request)));
     }
 
     private _setGlobalHooksToTests (tests: Test[]): void {
@@ -217,6 +224,7 @@ export default class Bootstrapper {
 
             item.globalBeforeFn = this.hooks?.test?.before ? wrapTestFunction(this.hooks.test.before) : null;
             item.globalAfterFn  = this.hooks?.test?.after ? wrapTestFunction(this.hooks.test.after) : null;
+            item.requestHooks   = union(flatten(castArray(this.hooks?.request)), item.requestHooks);
         });
     }
 

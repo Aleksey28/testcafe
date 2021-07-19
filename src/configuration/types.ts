@@ -1,3 +1,5 @@
+const RequestHook = require('../api/request-hooks/hook');
+
 type TemplateArguments = any[];
 
 interface ScreenshotOptionValue {
@@ -21,6 +23,7 @@ interface HooksValue {
     testRun?: Hook;
     fixture?: Hook;
     test?: Hook;
+    request?: typeof RequestHook[] | typeof RequestHook;
 }
 
 type OptionValue = undefined | null | string | boolean | number | string[] | Function | { [key: string]: any } | ScreenshotOptionValue | QuarantineOptionValue | CompilerOptions | HooksValue;
