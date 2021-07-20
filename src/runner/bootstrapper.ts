@@ -191,7 +191,7 @@ export default class Bootstrapper {
         return compiler.getTests();
     }
 
-    private _assertGlobalHooks () : void {
+    private _assertGlobalHooks (): void {
         if (this.hooks?.fixture?.before)
             assertType(is.function, 'globalBefore', 'The fixture.globalBefore hook', this.hooks.fixture.before);
 
