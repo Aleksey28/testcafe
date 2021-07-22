@@ -127,8 +127,8 @@ export default class FixtureHookController {
             item.pendingTestRunCount--;
 
             if (item.pendingTestRunCount === 0) {
-                await this._runFixtureAfterHook(item, fixture.globalAfterFn, testRun);
                 await this._runFixtureAfterHook(item, fixture.afterFn, testRun);
+                await this._runFixtureAfterHook(item, fixture.globalAfterFn, testRun);
             }
         }
     }
