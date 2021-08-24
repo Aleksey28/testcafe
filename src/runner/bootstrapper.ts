@@ -32,6 +32,7 @@ import WarningLog from '../notifications/warning-log';
 import WARNING_MESSAGES from '../notifications/warning-message';
 import guardTimeExecution from '../utils/guard-time-execution';
 import asyncFilter from '../utils/async-filter';
+import wrapTestFunction from '../api/wrap-test-function';
 import { assertType, is } from '../errors/runtime/type-assertions';
 
 const DEBUG_SCOPE = 'testcafe:bootstrapper';
@@ -200,6 +201,12 @@ export default class Bootstrapper {
 
         if (this.hooks.fixture?.after)
             assertType(is.function, 'globalAfter', 'The fixture.globalAfter hook', this.hooks.fixture.after);
+
+        if (this.hooks.test?.before)
+            assertType(is.function, 'globalBefore', 'The test.globalBefore hook', this.hooks.test.before);
+
+        if (this.hooks.test?.after)
+            assertType(is.function, 'globalAfter', 'The test.globalAfter hook', this.hooks.test.after);
     }
 
     private _setGlobalHooksToTests (tests: Test[]): void {
@@ -210,12 +217,17 @@ export default class Bootstrapper {
 
         const fixtureBefore = this.hooks.fixture?.before || null;
         const fixtureAfter  = this.hooks.fixture?.after || null;
+        const testBefore    = this.hooks.test?.before ? wrapTestFunction(this.hooks.test.before) : null;
+        const testAfter     = this.hooks.test?.after ? wrapTestFunction(this.hooks.test.after) : null;
 
         tests.forEach(item => {
             if (item.fixture) {
                 item.fixture.globalBeforeFn = item.fixture.globalBeforeFn || fixtureBefore;
                 item.fixture.globalAfterFn  = item.fixture.globalAfterFn || fixtureAfter;
             }
+
+            item.globalBeforeFn = testBefore;
+            item.globalAfterFn  = testAfter;
         });
     }
 

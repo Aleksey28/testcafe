@@ -22,8 +22,6 @@ describe('[API] fixture global before/after hooks', () => {
     });
 
     after(function () {
-        this.timeout(60000);
-
         testCafe.close();
     });
 
@@ -47,5 +45,23 @@ describe('[API] fixture global before/after hooks', () => {
 
     it('Should run hooks in the right order', async () => {
         return runTests('Test3');
+    });
+});
+
+describe('[API] test global before/after hooks', () => {
+    before(async () => {
+        testCafe = await createTestCafe({ configFile: path.resolve('./test/functional/fixtures/api/es-next/global-hooks/data/test-config.js') });
+    });
+
+    after(function () {
+        testCafe.close();
+    });
+
+    it('Should run global hooks for all tests', () => {
+        return runTests('Test1');
+    });
+
+    it('Should run all hooks in the right order', () => {
+        return runTests('Test2');
     });
 });
