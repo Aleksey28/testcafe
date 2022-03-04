@@ -1,6 +1,6 @@
 import adapter from './adapter/index';
 
-const SCROLLABLE_OVERFLOW_STYLE_RE               = /auto|scroll/i;
+const SCROLLABLE_OVERFLOW_STYLE_RE = /auto|scroll/i;
 
 function hasBodyScroll (el: HTMLBodyElement): boolean {
     const overflowX              = adapter.style.get(el, 'overflowX') as string;
