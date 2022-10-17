@@ -302,31 +302,28 @@ export function isElementVisible (el: Node): boolean {
     return styleUtils.hasDimensions(el as HTMLElement) && !hiddenUsingStyles(el as unknown as HTMLElement);
 }
 
-export function getHiddenReason (el?: Node, isRecursive?: boolean): string | null {
+export function getHiddenReason (el?: Node, isRecursive = false): string | null {
     if (!el)
         return null;
-
-    if (!isRecursive)
-        isRecursive = false;
-
-    const sentenceSubject = hiddenReasons.getSentenceSubject(isRecursive);
 
     const isTextNode = domUtils.isTextNode(el);
 
     if (!domUtils.isDomElement(el) && !isTextNode)
-        return hiddenReasons.notElementOrTextNode(sentenceSubject);
+        return hiddenReasons.notElementOrTextNode();
 
     const strEl           = isTextNode ? (el as Text).data : stringifyElement(el as HTMLElement);
     const offsetHeight    = (el as HTMLElement).offsetHeight;
     const offsetWidth     = (el as HTMLElement).offsetWidth;
     const isOptionElement = domUtils.isOptionElement(el) || domUtils.getTagName(el as HTMLElement) === 'optgroup';
+    const optionStr       = isOptionElement ? stringifyElement(el as HTMLElement) : '';
+
+    const { sentenceSubject, introduction, containerElementPlaceholder }  = hiddenReasons.getDynamicText( isOptionElement ? optionStr : strEl, isRecursive);
 
     if (isOptionElement && !selectController.isOptionElementVisible(el as HTMLElement)) {
         const optionParent    = domUtils.getSelectParent(el);
         const optionParentStr = stringifyElement(optionParent);
-        const optionStr       = stringifyElement(el as HTMLElement);
 
-        return hiddenReasons.optionNotVisible(optionStr, optionParentStr, sentenceSubject);
+        return hiddenReasons.optionNotVisible(optionParentStr, sentenceSubject, introduction, containerElementPlaceholder);
     }
 
     if (domUtils.isMapElement(el)) {
@@ -340,42 +337,42 @@ export function getHiddenReason (el?: Node, isRecursive?: boolean): string | nul
     const visibilityHiddenParent = getVisibilityHiddenParent(el);
 
     if (visibilityHiddenParent)
-        return hiddenReasons.parentHasVisibilityHidden(strEl, stringifyElement(visibilityHiddenParent), sentenceSubject);
+        return hiddenReasons.parentHasVisibilityHidden(stringifyElement(visibilityHiddenParent), sentenceSubject, introduction, containerElementPlaceholder);
 
     const visibilityCollapseParent = getVisibilityCollapseParent(el);
 
     if (visibilityCollapseParent)
-        return hiddenReasons.parentHasVisibilityCollapse(strEl, stringifyElement(visibilityCollapseParent), sentenceSubject);
+        return hiddenReasons.parentHasVisibilityCollapse(stringifyElement(visibilityCollapseParent), sentenceSubject, introduction, containerElementPlaceholder);
 
     const displayNoneParent = getDisplayNoneParent(el);
 
     if (displayNoneParent)
-        return hiddenReasons.parentHasDisplayNone(strEl, stringifyElement(displayNoneParent), sentenceSubject);
+        return hiddenReasons.parentHasDisplayNone(stringifyElement(displayNoneParent), sentenceSubject, introduction, containerElementPlaceholder);
 
     if (elHasVisibilityHidden(el))
-        return hiddenReasons.elHasVisibilityHidden(strEl, sentenceSubject);
+        return hiddenReasons.elHasVisibilityHidden(sentenceSubject, introduction, containerElementPlaceholder);
 
     if (elHasVisibilityCollapse(el))
-        return hiddenReasons.elHasVisibilityCollapse(strEl, sentenceSubject);
+        return hiddenReasons.elHasVisibilityCollapse(sentenceSubject, introduction, containerElementPlaceholder);
 
     if (elHasDisplayNone(el))
-        return hiddenReasons.elHasDisplayNone(strEl, sentenceSubject);
+        return hiddenReasons.elHasDisplayNone(sentenceSubject, introduction, containerElementPlaceholder);
 
     if (domUtils.isTextNode(el) && !domUtils.isRenderedNode(el))
-        return hiddenReasons.elNotRendered(strEl, sentenceSubject);
+        return hiddenReasons.elNotRendered(sentenceSubject, introduction, containerElementPlaceholder);
 
     if (!domUtils.isContentEditableElement(el) &&
         hiddenByRectangle(el as HTMLElement))
-        return hiddenReasons.elHasWidthOrHeightZero(strEl, offsetWidth, offsetHeight, sentenceSubject);
+        return hiddenReasons.elHasWidthOrHeightZero(offsetWidth, offsetHeight, sentenceSubject, introduction, containerElementPlaceholder);
 
     if (!styleUtils.hasDimensions(el as HTMLElement))
-        return hiddenReasons.elHasWidthOrHeightZero(strEl, offsetWidth, offsetHeight, sentenceSubject);
+        return hiddenReasons.elHasWidthOrHeightZero(offsetWidth, offsetHeight, sentenceSubject, introduction, containerElementPlaceholder);
 
     return null;
 }
 
-export function getElOutsideBoundsReason (el: HTMLElement, sentenceSubject: string): string {
+export function getElOutsideBoundsReason (el: HTMLElement): string {
     const elStr  = stringifyElement(el);
 
-    return hiddenReasons.elOutsideBounds(elStr, sentenceSubject);
+    return hiddenReasons.elOutsideBounds(elStr);
 }

@@ -3,58 +3,70 @@ const capitalize = function (originalInput: string): string {
 };
 
 export default {
-    getSentenceSubject: (isRecursive: boolean) => {
-        return isRecursive ? `container` : `action target`;
+    getDynamicText: (target: string, isRecursive = false): {
+        introduction: string,
+        sentenceSubject: string,
+        containerElementPlaceholder: string
+    } => {
+        return {
+            introduction:                isRecursive ? '' : `TestCafe cannot interact with the following action target: ${target}`,
+            sentenceSubject:             isRecursive ? 'container' : 'action target',
+            containerElementPlaceholder: isRecursive ? `Container: ${target} \n` : '',
+        };
     },
     chainMessage: (originalInput:string) => {
         originalInput = originalInput.trimStart();
         return originalInput.replace(/The/, 'its') || '';
     },
-    notElementOrTextNode: (sentenceSubject: string) => `
-        The ${sentenceSubject} is neither a DOM element nor a text node.
+    notElementOrTextNode: () => `
+        TestCafe cannot interact with the action target.
+        The action target is neither a DOM element nor a text node.
     `,
-    elOutsideBounds: (target: string, sentenceSubject: string) => `
-        The ${sentenceSubject} is located outside the the layout viewport.
-        ${capitalize(sentenceSubject)}: ${target}
+    elOutsideBounds: (target: string) => `
+        TestCafe cannot interact with the following action target: ${target}
+        The action target is located outside the the layout viewport.
     `,
-    elHasWidthOrHeightZero: (target: string, width: number, height: number, sentenceSubject: string) => `
+    elHasWidthOrHeightZero: (width: number, height: number, sentenceSubject: string, introduction: string, containerElementPlaceholder: string) => `
+        ${introduction} 
         The ${sentenceSubject} is too small to be visible.
-        ${capitalize(sentenceSubject)}: ${target}
-        Effective ${sentenceSubject} size: ${width}px x ${height}px`,
-    elHasDisplayNone: (target: string, sentenceSubject: string) => `
+        ${containerElementPlaceholder} Effective ${sentenceSubject} size: ${width}px x ${height}px
+    `,
+    elHasDisplayNone: (sentenceSubject: string, introduction: string, containerElementPlaceholder: string) => `
+        ${introduction}
         The ${sentenceSubject} is invisible. The value of its 'display' property is 'none'.
-        ${capitalize(sentenceSubject)}: '${target}'
+        ${containerElementPlaceholder}
     `,
-    parentHasDisplayNone: (target: string, parent: string, sentenceSubject: string) => `
+    parentHasDisplayNone: (parent: string, sentenceSubject: string, introduction: string, containerElementPlaceholder: string) => `
+        ${introduction}
         The ${sentenceSubject} is invisible. It descends from an element that has the 'display: none' property.
-        ${capitalize(sentenceSubject)}: '${target}'
-        ${capitalize(sentenceSubject)} ancestor: '${parent}'
+        ${containerElementPlaceholder} ${capitalize(sentenceSubject)} ancestor: '${parent}'
     `,
-    elHasVisibilityHidden: (target: string, sentenceSubject: string) => `
-        The ${sentenceSubject} is invisible. The value of its 'visibility' property is 'hidden'.
-        ${capitalize(sentenceSubject)}: '${target}'
+    elHasVisibilityHidden: (sentenceSubject: string, introduction: string, containerElementPlaceholder: string) => `
+        ${introduction}
+        The ${sentenceSubject} is invisible. The value of its 'visibility' property is 'hidden'. ${containerElementPlaceholder}
     `,
-    parentHasVisibilityHidden: (target: string, parent: string, sentenceSubject: string) => `
+    parentHasVisibilityHidden: (parent: string, sentenceSubject: string, introduction: string, containerElementPlaceholder: string) => `
+        ${introduction}
         The ${sentenceSubject} is invisible. It descends from an element that has the 'visibility: hidden' property.
-        ${capitalize(sentenceSubject)}: '${target}'
-        ${capitalize(sentenceSubject)} ancestor: '${parent}'
+        ${containerElementPlaceholder} ${capitalize(sentenceSubject)} ancestor: '${parent}'
     `,
-    elHasVisibilityCollapse: (target: string, sentenceSubject: string) => `
-        The ${sentenceSubject} is invisible. The value of its 'visibility' property is 'collapse'.
+    elHasVisibilityCollapse: (sentenceSubject: string, introduction: string, containerElementPlaceholder: string) => `
+        ${introduction}
+        The ${sentenceSubject} is invisible. The value of its 'visibility' property is 'collapse'. ${containerElementPlaceholder}
     `,
-    parentHasVisibilityCollapse: (target: string, parent: string, sentenceSubject: string) => `
+    parentHasVisibilityCollapse: (parent: string, sentenceSubject: string, introduction: string, containerElementPlaceholder: string) => `
+        ${introduction}
         The ${sentenceSubject} is invisible. It descends from an element that has the 'visibility: collapse' property.
-        ${capitalize(sentenceSubject)}: '${target}'
-        ${capitalize(sentenceSubject)} ancestor: '${parent}'
+        ${containerElementPlaceholder} ${capitalize(sentenceSubject)} ancestor: '${parent}'
     `,
-    elNotRendered: (target: string, sentenceSubject: string) => `
-        The ${sentenceSubject} has not been rendered.
-        ${capitalize(sentenceSubject)}: ${target}
+    elNotRendered: (sentenceSubject: string, introduction: string, containerElementPlaceholder: string) => `
+        ${introduction}
+        The ${sentenceSubject} has not been rendered. ${containerElementPlaceholder}
     `,
-    optionNotVisible: (target: string, parent: string, sentenceSubject: string) => `
+    optionNotVisible: (parent: string, sentenceSubject: string, introduction: string, containerElementPlaceholder: string) => `
+        ${introduction}
         The option is invisible. The parent element is collapsed and its length is shorter than 2.
-        ${capitalize(sentenceSubject)}: ${target}
-        ${capitalize(sentenceSubject)} ancestor: ${parent}
+        ${containerElementPlaceholder} ${capitalize(sentenceSubject)} ancestor: ${parent}
     `,
     mapContainerNotVisible: (target: string, containerHiddenReason: string) => `
         TestCafe cannot interact with the following action target: ${target}
