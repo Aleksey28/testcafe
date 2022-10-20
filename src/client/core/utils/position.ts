@@ -307,29 +307,26 @@ export function getHiddenReason (el?: Node, isRecursive = false): string | null 
         return null;
 
     const isTextNode = domUtils.isTextNode(el);
-
-    if (!domUtils.isDomElement(el) && !isTextNode)
-        return hiddenReasons.notElementOrTextNode();
-
     const strEl           = isTextNode ? (el as Text).data : stringifyElement(el as HTMLElement);
     const offsetHeight    = (el as HTMLElement).offsetHeight;
     const offsetWidth     = (el as HTMLElement).offsetWidth;
     const isOptionElement = domUtils.isOptionElement(el) || domUtils.getTagName(el as HTMLElement) === 'optgroup';
-    const optionStr       = isOptionElement ? stringifyElement(el as HTMLElement) : '';
 
-    const { sentenceSubject, introduction, containerElementPlaceholder }  = hiddenReasons.getDynamicText( isOptionElement ? optionStr : strEl, isRecursive);
+    const sentenceSubject = hiddenReasons.getSentenceSubject(isRecursive);
+
+    if (!domUtils.isDomElement(el) && !isTextNode)
+        return hiddenReasons.notElementOrTextNode(strEl);
 
     if (isOptionElement && !selectController.isOptionElementVisible(el as HTMLElement)) {
         const optionParent    = domUtils.getSelectParent(el);
         const optionParentStr = stringifyElement(optionParent);
 
-        return hiddenReasons.optionNotVisible(optionParentStr, sentenceSubject, introduction, containerElementPlaceholder);
+        return hiddenReasons.optionNotVisible(strEl, optionParentStr, sentenceSubject);
     }
 
     if (domUtils.isMapElement(el)) {
-        const recursiveError        = true;
         const mapContainer          = domUtils.getMapContainer(domUtils.closest(el, 'map'));
-        const containerError = hiddenReasons.chainMessage(getHiddenReason(mapContainer, recursiveError) || '');
+        const containerError = hiddenReasons.chainMessage(getHiddenReason(mapContainer, true) || '');
 
         return hiddenReasons.mapContainerNotVisible(strEl, containerError || '');
     }
@@ -337,36 +334,36 @@ export function getHiddenReason (el?: Node, isRecursive = false): string | null 
     const visibilityHiddenParent = getVisibilityHiddenParent(el);
 
     if (visibilityHiddenParent)
-        return hiddenReasons.parentHasVisibilityHidden(stringifyElement(visibilityHiddenParent), sentenceSubject, introduction, containerElementPlaceholder);
+        return hiddenReasons.parentHasVisibilityHidden(strEl, stringifyElement(visibilityHiddenParent), sentenceSubject);
 
     const visibilityCollapseParent = getVisibilityCollapseParent(el);
 
     if (visibilityCollapseParent)
-        return hiddenReasons.parentHasVisibilityCollapse(stringifyElement(visibilityCollapseParent), sentenceSubject, introduction, containerElementPlaceholder);
+        return hiddenReasons.parentHasVisibilityCollapse(strEl, stringifyElement(visibilityCollapseParent), sentenceSubject);
 
     const displayNoneParent = getDisplayNoneParent(el);
 
     if (displayNoneParent)
-        return hiddenReasons.parentHasDisplayNone(stringifyElement(displayNoneParent), sentenceSubject, introduction, containerElementPlaceholder);
+        return hiddenReasons.parentHasDisplayNone(strEl, stringifyElement(displayNoneParent), sentenceSubject);
 
     if (elHasVisibilityHidden(el))
-        return hiddenReasons.elHasVisibilityHidden(sentenceSubject, introduction, containerElementPlaceholder);
+        return hiddenReasons.elHasVisibilityHidden(strEl, sentenceSubject);
 
     if (elHasVisibilityCollapse(el))
-        return hiddenReasons.elHasVisibilityCollapse(sentenceSubject, introduction, containerElementPlaceholder);
+        return hiddenReasons.elHasVisibilityCollapse(strEl, sentenceSubject);
 
     if (elHasDisplayNone(el))
-        return hiddenReasons.elHasDisplayNone(sentenceSubject, introduction, containerElementPlaceholder);
+        return hiddenReasons.elHasDisplayNone(strEl, sentenceSubject);
 
     if (domUtils.isTextNode(el) && !domUtils.isRenderedNode(el))
-        return hiddenReasons.elNotRendered(sentenceSubject, introduction, containerElementPlaceholder);
+        return hiddenReasons.elNotRendered(strEl, sentenceSubject);
 
     if (!domUtils.isContentEditableElement(el) &&
         hiddenByRectangle(el as HTMLElement))
-        return hiddenReasons.elHasWidthOrHeightZero(offsetWidth, offsetHeight, sentenceSubject, introduction, containerElementPlaceholder);
+        return hiddenReasons.elHasWidthOrHeightZero(strEl, offsetWidth, offsetHeight, sentenceSubject);
 
     if (!styleUtils.hasDimensions(el as HTMLElement))
-        return hiddenReasons.elHasWidthOrHeightZero(offsetWidth, offsetHeight, sentenceSubject, introduction, containerElementPlaceholder);
+        return hiddenReasons.elHasWidthOrHeightZero(strEl, offsetWidth, offsetHeight, sentenceSubject);
 
     return null;
 }
