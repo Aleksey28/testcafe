@@ -44,7 +44,7 @@ export default {
   `,
     optionNotVisible: (target: string, parent: string, sentenceSubject: string) => `
     The ${sentenceSubject} (${target}) is invisible. 
-    The parent element (${parent}) is collapsed and its length is shorter than 2.
+    The parent element (${parent}) is collapsed, and its length is shorter than 2.
   `,
     mapContainerNotVisible: (target: string, containerHiddenReason: string) => {
         return `
