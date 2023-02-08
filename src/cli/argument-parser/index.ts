@@ -202,6 +202,7 @@ export default class CLIArgumentParser {
             .option('--disable-http2', 'force the proxy to issue HTTP/1.1 requests')
             .option('--cache', 'cache web assets between test runs')
             .option('--base-url <url>', 'set the base url for the test run')
+            .option('--login', 'login in TestCafe')
 
             // NOTE: these options will be handled by chalk internally
             .option('--color', 'force TestCafe to format CLI output with color')

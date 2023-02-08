@@ -10,6 +10,7 @@ import createTestCafe from '../';
 import debug from 'debug';
 import logEntry from '../utils/log-entry';
 import dashboardIntegration from '../dashboard';
+import authorization from '../authorization/index';
 
 const LOGGER = debug('testcafe:cli');
 
@@ -176,6 +177,12 @@ async function listBrowsers (providerName) {
     exit(0);
 }
 
+async function login () {
+    await authorization.login();
+
+    exit(0);
+}
+
 (async function cli () {
     const terminationHandler = new TerminationHandler();
 
@@ -194,6 +201,8 @@ async function listBrowsers (providerName) {
             await runDashboardIntegration(argParser.sendReportState);
         else if (argParser.opts.listBrowsers)
             await listBrowsers(argParser.opts.providerName);
+        else if (argParser.opts.login)
+            await login();
         else
             await runTests(argParser);
     }
