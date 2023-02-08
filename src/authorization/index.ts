@@ -14,6 +14,8 @@ const REQUEST_ACCESS_PARAM  = 'testcafeAccess';
 const RESPONSE_FILE_RESOLVE = 'resolve-response.html.mustache';
 const RESPONSE_FILE_REJECT  = 'reject-response.html.mustache';
 
+const authorizationStorage  = new AuthorizationStorage();
+
 class Authorization {
     private _expectedHash: string;
     private _hash: string;
@@ -26,6 +28,18 @@ class Authorization {
 
     get hash (): string {
         return this._hash;
+    }
+
+    async isAuthorized (): Promise<boolean> {
+        const storageExists = await authorizationStorage.load();
+
+        return storageExists && !!authorizationStorage.options.authorizationHash;
+    }
+
+    async skip (): Promise<void> {
+        authorizationStorage.options.skipAuthorization = true;
+
+        await authorizationStorage.save();
     }
 
     async login (): Promise<void> {
@@ -41,6 +55,7 @@ class Authorization {
 
         await loginWaiter;
 
+        await this.authorize();
         server.close();
     }
 
@@ -94,6 +109,11 @@ class Authorization {
         return Mustache.render(pageTemplate.toString(), {}) as string;
     }
 
+    private async authorize (): Promise<void> {
+        authorizationStorage.options.authorizationHash = this.hash;
+
+        await authorizationStorage.save();
+    }
 }
 
 export default new Authorization();
