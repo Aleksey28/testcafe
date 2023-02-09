@@ -199,10 +199,10 @@ async function login () {
 
         if (argParser.isDashboardCommand)
             await runDashboardIntegration(argParser.sendReportState);
+        else if (argParser.isLoginCommand)
+            await login();
         else if (argParser.opts.listBrowsers)
             await listBrowsers(argParser.opts.providerName);
-        else if (argParser.opts.login)
-            await login();
         else
             await runTests(argParser);
     }

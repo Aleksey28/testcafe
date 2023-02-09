@@ -97,6 +97,7 @@ export default class CLIArgumentParser {
     private cwd: string;
     private remoteCount: number;
     public isDashboardCommand: boolean;
+    public isLoginCommand: boolean;
     public sendReportState: SendReportState;
     public opts: CommandLineOptions;
     public args: string[];
@@ -109,9 +110,11 @@ export default class CLIArgumentParser {
         this.args        = [];
 
         this.isDashboardCommand = false;
+        this.isLoginCommand     = false;
         this.testCafeCommand    = this._addTestCafeCommand();
 
         this._patchHelpOutput(this.testCafeCommand);
+        this._addLoginSubcommand();
         CLIArgumentParser._setupRootCommand();
     }
 
@@ -131,6 +134,17 @@ export default class CLIArgumentParser {
 
         if (index > -1)
             (program as unknown as Command).commands.splice(index, 1);
+    }
+
+    private _addLoginSubcommand (): void {
+        CLIArgumentParser._removeCommandIfExists(COMMAND_NAMES.Login);
+
+        (program as unknown as Command)
+            .command(COMMAND_NAMES.Login)
+            .description('Login in TestCafe.')
+            .action(() => {
+                this.isLoginCommand = true;
+            });
     }
 
     private static _getDescription (): string {
@@ -202,7 +216,6 @@ export default class CLIArgumentParser {
             .option('--disable-http2', 'force the proxy to issue HTTP/1.1 requests')
             .option('--cache', 'cache web assets between test runs')
             .option('--base-url <url>', 'set the base url for the test run')
-            .option('--login', 'login in TestCafe')
 
             // NOTE: these options will be handled by chalk internally
             .option('--color', 'force TestCafe to format CLI output with color')
