@@ -20,6 +20,7 @@ class Authorization {
     private _expectedHash: string;
     private _hash: string;
     private loginResolver?: Function;
+    private server?: Server;
 
     constructor () {
         this._expectedHash = '';
@@ -33,7 +34,7 @@ class Authorization {
     async isAuthorized (): Promise<boolean> {
         const storageExists = await authorizationStorage.load();
 
-        return storageExists && !!authorizationStorage.options.authorizationHash;
+        return storageExists && (!!authorizationStorage.options.authorizationHash || !!authorizationStorage.options.skipAuthorization);
     }
 
     async skip (): Promise<void> {
@@ -44,27 +45,31 @@ class Authorization {
 
     async login (): Promise<void> {
         this._expectedHash = this.createHash();
+        this.server        = await Server.createServer(this.handleServerRequest.bind(this));
 
-        const server      = await Server.createServer(this.handleServerRequest.bind(this));
         const loginWaiter = new Promise<string>(resolve => {
             this.loginResolver = resolve;
         });
 
-        await server.open();
-        open(this.getAuthPageUrl(server));
+        await this.server.open();
+        this.openAuthPage();
 
         await loginWaiter;
 
         await this.authorize();
-        server.close();
+        this.server.close();
     }
 
     private createHash (): string {
         return createHash('sha256').digest('hex').toString();
     }
 
-    private getAuthPageUrl (server: Server): string {
-        const returnUrl = server.getUrl(`?${REQUEST_ACCESS_PARAM}=${this._expectedHash}`);
+    private openAuthPage (): void {
+        open(this.getAuthPageUrl());
+    }
+
+    private getAuthPageUrl (): string {
+        const returnUrl = this.server?.getUrl(`?${REQUEST_ACCESS_PARAM}=${this._expectedHash}`);
 
         return `${AUTH_URL}?${AUTH_RETURN_URL}=${returnUrl}`;
     }
