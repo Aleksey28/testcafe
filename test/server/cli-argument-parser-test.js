@@ -931,4 +931,10 @@ describe('CLI argument parser', function () {
                 expect(runOpts.baseUrl).eql('localhost:3000');
             });
     });
+
+    it('Should parse login command', async () => {
+        const parser = await parse('login');
+
+        expect(parser.isLoginCommand).to.be.true;
+    });
 });
