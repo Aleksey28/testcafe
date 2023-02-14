@@ -25,7 +25,7 @@ export default class AuthorizationStorage {
         const result        = await this._storage.tryLoad<AuthorizationOptions>();
         const storageExists = result !== void 0;
 
-        Object.assign(this.options, result || { ...DEFAULT_AUTHORIZATION_OPTIONS });
+        this.options = Object.assign(result || { ...DEFAULT_AUTHORIZATION_OPTIONS }, this.options);
 
         this.isLoaded = true;
 
