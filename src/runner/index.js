@@ -732,6 +732,21 @@ export default class Runner extends EventEmitter {
         await this.configuration.asyncMergeOptions(this._options);
     }
 
+    async _authorize () {
+        let needAuthorize = await authorization.needAuthorize();
+        let skipped       = await authorization.isSkipped();
+
+        if (needAuthorize && !skipped) {
+            const answer = await authorization.askAuthorization();
+
+            if (answer.authorize)
+                await authorization.login();
+            else
+                await authorization.skip();
+        }
+
+    }
+
     // API
     embeddingOptions (opts) {
         const { assets, TestRunCtor } = opts;

@@ -6,6 +6,15 @@ import Server from './server';
 import { readFile } from '../utils/promisified-functions';
 import Mustache from 'mustache';
 import AuthorizationStorage from './storage';
+import log from '../cli/log';
+import isCI from 'is-ci';
+import isDocker from 'is-docker';
+import isPodman from 'is-podman';
+import {
+    AUTHORIZATION_COMPLETED,
+    AUTHORIZATION_DENIED,
+    AUTHORIZATION_REQUEST,
+} from './messages';
 
 
 const LOGIN_URL                 = 'https://www.devexpress.com/MyAccount/LogIn/';
@@ -22,10 +31,14 @@ class Authorization {
     private _hash: string;
     private loginResolver?: Function;
     private server?: Server;
+    private _isAuthorized: boolean;
+    private _isSkipped: boolean;
 
     constructor () {
         this._expectedHash = '';
         this._hash = '';
+        this._isAuthorized = false;
+        this._isSkipped = false;
     }
 
     get hash (): string {
@@ -33,12 +46,30 @@ class Authorization {
     }
 
     async isAuthorized (): Promise<boolean> {
+        if (this._isAuthorized)
+            return true;
+
         const storageExists = await authorizationStorage.load();
 
-        return storageExists && (!!authorizationStorage.options.authorizationHash || !!authorizationStorage.options.skipAuthorization);
+        this._isAuthorized = storageExists && !!authorizationStorage.options.authorizationHash;
+
+        return this._isAuthorized;
+    }
+
+    async isSkipped (): Promise<boolean> {
+        if (this._isSkipped)
+            return true;
+
+        const storageExists = await authorizationStorage.load();
+
+        this._isSkipped = storageExists && !!authorizationStorage.options.skipAuthorization;
+
+        return this._isSkipped;
     }
 
     async skip (): Promise<void> {
+        this._isSkipped = true;
+
         authorizationStorage.options.skipAuthorization = true;
 
         await authorizationStorage.save();
@@ -65,6 +96,21 @@ class Authorization {
         await authorizationStorage.clear();
     }
 
+    private async authorize (): Promise<void> {
+        if (!this.isAccessed()) {
+            log.write(AUTHORIZATION_DENIED);
+            return;
+        }
+
+        this._isAuthorized = true;
+
+        authorizationStorage.options.authorizationHash = this.hash;
+
+        await authorizationStorage.save();
+
+        log.write(AUTHORIZATION_COMPLETED);
+    }
+
     private createHash (): string {
         return createHash('sha256').digest('hex').toString();
     }
@@ -83,20 +129,18 @@ class Authorization {
         if (!req.url)
             return;
 
-        if (this.isAccess(req.url, req.headers.host)) {
-            this._hash = this.getAccessParam(req.url, req.headers.host);
+        this._hash = this.getAccessParam(req.url, req.headers.host);
+
+        if (this.isAccessed())
             await this.setResponse(res, 200, RESPONSE_FILE_RESOLVE);
-        }
         else
             await this.setResponse(res, 403, RESPONSE_FILE_REJECT);
 
         this.loginResolver?.();
     }
 
-    private isAccess (url: string, base?: string): boolean {
-        const access = this.getAccessParam(url, base);
-
-        return access === this._expectedHash;
+    private isAccessed (): boolean {
+        return this._hash === this._expectedHash;
     }
 
     private getAccessParam (url: string, base?: string): string {
@@ -121,10 +165,19 @@ class Authorization {
         }) as string;
     }
 
-    private async authorize (): Promise<void> {
-        authorizationStorage.options.authorizationHash = this.hash;
+    async needAuthorize (): Promise<boolean> {
+        const isAuthorized = await this.isAuthorized();
 
-        await authorizationStorage.save();
+        return !isAuthorized && !isCI && !isDocker() && !isPodman();
+    }
+
+    async askAuthorization (): Promise<{authorize: boolean}> {
+        return await log.prompt({
+            type:    'confirm',
+            name:    'authorize',
+            message: AUTHORIZATION_REQUEST,
+            initial: true,
+        }) as {authorize: boolean};
     }
 }
 
