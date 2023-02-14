@@ -52,6 +52,9 @@ import logEntry from '../utils/log-entry';
 import MessageBus from '../utils/message-bus';
 import getEnvOptions from '../dashboard/get-env-options';
 import { validateSkipJsErrorsOptionValue } from '../utils/get-options/skip-js-errors';
+import authorization from '../authorization';
+import log from '../cli/log';
+import { NOT_AUTHORIZED } from '../authorization/messages';
 
 const DEBUG_LOGGER            = debug('testcafe:runner');
 const DASHBOARD_REPORTER_NAME = 'dashboard';
@@ -615,6 +618,7 @@ export default class Runner extends EventEmitter {
     async _prepareOptions (options) {
         this._options = Object.assign(this._options, options);
 
+        await this._authorize();
         await this._setConfigurationOptions();
         await this._prepareReporters();
         await this._setBootstrapperOptions();
@@ -745,6 +749,11 @@ export default class Runner extends EventEmitter {
                 await authorization.skip();
         }
 
+        needAuthorize = await authorization.needAuthorize();
+        skipped       = await authorization.isSkipped();
+
+        if (needAuthorize && skipped)
+            log.write(NOT_AUTHORIZED);
     }
 
     // API
