@@ -61,6 +61,10 @@ class Authorization {
         this.server.close();
     }
 
+    async logout (): Promise<void> {
+        await authorizationStorage.clear();
+    }
+
     private createHash (): string {
         return createHash('sha256').digest('hex').toString();
     }

@@ -183,6 +183,12 @@ async function login () {
     exit(0);
 }
 
+async function logout () {
+    await authorization.logout();
+
+    exit(0);
+}
+
 (async function cli () {
     const terminationHandler = new TerminationHandler();
 
@@ -201,6 +207,8 @@ async function login () {
             await runDashboardIntegration(argParser.sendReportState);
         else if (argParser.isLoginCommand)
             await login();
+        else if (argParser.isLogoutCommand)
+            await logout();
         else if (argParser.opts.listBrowsers)
             await listBrowsers(argParser.opts.providerName);
         else
