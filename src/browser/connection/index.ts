@@ -127,6 +127,7 @@ export default class BrowserConnection extends EventEmitter {
 
     public readonly warningLog: WarningLog;
     private _messageBus?: MessageBus;
+    private isAuthorized?: boolean;
 
     public idle: boolean;
 
@@ -139,7 +140,8 @@ export default class BrowserConnection extends EventEmitter {
         permanent: boolean,
         disableMultipleWindows = false,
         proxyless = false,
-        messageBus?: MessageBus) {
+        messageBus?: MessageBus,
+        isAuthorized?: boolean) {
         super();
 
         this.HEARTBEAT_TIMEOUT       = HEARTBEAT_TIMEOUT;
@@ -173,6 +175,7 @@ export default class BrowserConnection extends EventEmitter {
         this.pendingTestRunInfo     = null;
         this.disableMultipleWindows = disableMultipleWindows;
         this.proxyless              = proxyless;
+        this.isAuthorized           = isAuthorized;
 
         this._buildCommunicationUrls(gateway.proxy);
         this._setEventHandlers();
@@ -563,6 +566,7 @@ export default class BrowserConnection extends EventEmitter {
             openFileProtocolUrl: this.openFileProtocolUrl,
             retryTestPages:      !!this.browserConnectionGateway.retryTestPages,
             proxyless:           this.proxyless,
+            isAuthorized:        this.isAuthorized,
         });
     }
 

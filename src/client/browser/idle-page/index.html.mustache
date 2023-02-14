@@ -27,6 +27,15 @@
 </div>
 
 <script type="text/javascript">
+    if (!{{{isAuthorized}}}) {
+        var notAuthorizedMessage = document.createElement('span');
+        var textArea             = document.querySelector('.status-text-area');
+
+        notAuthorizedMessage.textContent = 'You are not authorized';
+
+        textArea.append(notAuthorizedMessage);
+    }
+
     var idlePage = new IdlePage({
             statusUrl:           '{{{statusUrl}}}',
             heartbeatUrl:        '{{{heartbeatUrl}}}',

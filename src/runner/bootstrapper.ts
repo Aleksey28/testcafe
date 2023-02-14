@@ -98,6 +98,7 @@ export default class Bootstrapper {
     public browserInitTimeout?: number;
     public hooks?: GlobalHooks;
     public configuration: Configuration;
+    public isAuthorized: boolean;
 
     private readonly compilerService?: CompilerService;
     private readonly debugLogger: debug.Debugger;
@@ -125,6 +126,7 @@ export default class Bootstrapper {
         this.compilerService          = compilerService;
         this.messageBus               = messageBus;
         this.configuration            = configuration;
+        this.isAuthorized             = true;
 
         this.TESTS_COMPILATION_UPPERBOUND = 60;
     }
@@ -156,7 +158,7 @@ export default class Bootstrapper {
 
         return browserInfo
             .map(browser => times(this.concurrency, () => new BrowserConnection(
-                this.browserConnectionGateway, { ...browser }, false, this.disableMultipleWindows, this.proxyless, this.messageBus)));
+                this.browserConnectionGateway, { ...browser }, false, this.disableMultipleWindows, this.proxyless, this.messageBus, this.isAuthorized)));
     }
 
     private _getBrowserSetOptions (): BrowserSetOptions {

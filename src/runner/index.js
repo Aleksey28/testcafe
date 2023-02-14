@@ -547,6 +547,7 @@ export default class Runner extends EventEmitter {
         this.bootstrapper.browserInitTimeout     = this.configuration.getOption(OPTION_NAMES.browserInitTimeout);
         this.bootstrapper.hooks                  = this.configuration.getOption(OPTION_NAMES.hooks);
         this.bootstrapper.configuration          = this.configuration;
+        this.bootstrapper.isAuthorized           = this.isAuthorized;
     }
 
     async _addDashboardReporterIfNeeded () {
@@ -737,8 +738,8 @@ export default class Runner extends EventEmitter {
     }
 
     async _authorize () {
-        let needAuthorize = await authorization.needAuthorize();
-        let skipped       = await authorization.isSkipped();
+        const skipped       = await authorization.isSkipped();
+        let needAuthorize   = await authorization.needAuthorize();
 
         if (needAuthorize && !skipped) {
             const answer = await authorization.askAuthorization();
@@ -750,10 +751,11 @@ export default class Runner extends EventEmitter {
         }
 
         needAuthorize = await authorization.needAuthorize();
-        skipped       = await authorization.isSkipped();
 
-        if (needAuthorize && skipped)
+        if (needAuthorize) {
+            this.isAuthorized = false;
             log.write(NOT_AUTHORIZED);
+        }
     }
 
     // API

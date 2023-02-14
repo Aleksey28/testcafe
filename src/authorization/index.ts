@@ -106,6 +106,7 @@ class Authorization {
 
         authorizationStorage.options.authorizationHash = this.hash;
 
+        debugger;
         await authorizationStorage.save();
 
         log.write(AUTHORIZATION_COMPLETED);
