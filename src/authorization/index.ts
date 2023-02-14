@@ -8,7 +8,7 @@ import Mustache from 'mustache';
 import AuthorizationStorage from './storage';
 
 
-const AUTH_URL                  = 'https://www.devexpress.com/MyAccount/LogIn/';
+const LOGIN_URL                 = 'https://www.devexpress.com/MyAccount/LogIn/';
 const AUTH_RETURN_URL           = 'returnUrl';
 const REQUEST_ACCESS_PARAM      = 'testcafeAccess';
 const RESPONSE_FILE_RESOLVE     = 'resolve-response.html.mustache';
@@ -53,7 +53,7 @@ class Authorization {
         });
 
         await this.server.open();
-        this.openAuthPage();
+        this.openLoginPage();
 
         await loginWaiter;
 
@@ -69,14 +69,14 @@ class Authorization {
         return createHash('sha256').digest('hex').toString();
     }
 
-    private openAuthPage (): void {
-        open(this.getAuthPageUrl());
+    private openLoginPage (): void {
+        open(this.getLoginPageUrl());
     }
 
-    private getAuthPageUrl (): string {
+    private getLoginPageUrl (): string {
         const returnUrl = this.server?.getUrl(`?${REQUEST_ACCESS_PARAM}=${this._expectedHash}`);
 
-        return `${AUTH_URL}?${AUTH_RETURN_URL}=${returnUrl}`;
+        return `${LOGIN_URL}?${AUTH_RETURN_URL}=${returnUrl}`;
     }
 
     private async handleServerRequest (req: http.IncomingMessage, res: http.ServerResponse): Promise<void> {
