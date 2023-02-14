@@ -3,6 +3,7 @@ import elegantSpinner from 'elegant-spinner';
 import logUpdate from 'log-update-async-hook';
 import chalk from 'chalk';
 import isCI from 'is-ci';
+import prompts from 'prompts';
 
 // NOTE: To support piping, we use stderr as the log output
 // stream, while stdout is used for the report output.
@@ -44,6 +45,18 @@ export default {
 
         if (this.animation)
             this.showSpinner();
+    },
+
+    async prompt (options) {
+        if (this.animation)
+            this.hideSpinner();
+
+        const res = await prompts(options);
+
+        if (this.animation)
+            this.showSpinner();
+
+        return res;
     },
 };
 
