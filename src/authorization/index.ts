@@ -92,6 +92,10 @@ class Authorization {
         this.server.close();
     }
 
+    async logout (): Promise<void> {
+        await authorizationStorage.clear();
+    }
+
     private async authorize (): Promise<void> {
         if (!this.isAccessed()) {
             log.write(AUTHORIZATION_DENIED);
