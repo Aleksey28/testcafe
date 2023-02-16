@@ -23,6 +23,11 @@ const BrowserConnectionStatus = require('../../lib/browser/connection/status');
 const { noop }                = require('lodash');
 const Test                    = require('../../lib/api/structure/test');
 const TestCafeConfiguration   = require('../../lib/configuration/testcafe-configuration');
+const authorization           = require('../../lib/authorization/index');
+const authorizationStorage    = require('../../lib/authorization/storage');
+const authorizationMessages   = require('../../lib/authorization/messages');
+const { prompts }             = require('prompts');
+const sinon                   = require('sinon');
 
 const { browserConnectionGatewayMock } = require('./helpers/mocks');
 
@@ -1370,6 +1375,138 @@ describe('Runner', () => {
             catch (err) {
                 expect(err.message).eql('TestCafe cannot parse the "makeTea" action, because the action definition is invalid. Format the definition in accordance with the custom actions guide: https://testcafe.io/documentation/404150/guides/advanced-guides/custom-test-actions');
             }
+        });
+
+        describe('Authorization', () => {
+            const REQUEST_ACCESS_PARAM = 'testcafeAccess';
+            const DEFAULT_HASH_VALUE   = 'hash';
+
+            let promptsMessages = [];
+
+            const stubAuthorization = (hash = DEFAULT_HASH_VALUE) => {
+                sinon.stub(authorization, 'openLoginPage').callsFake(() => {
+                    return request(authorization.server.getUrl(`?${REQUEST_ACCESS_PARAM}=${hash}`));
+                });
+
+                sinon.stub(authorization, 'createHash').callsFake(() => {
+                    return DEFAULT_HASH_VALUE;
+                });
+            };
+
+            const stubAuthorizationStorage = (storageOptions = {}) => {
+                sinon.stub(authorizationStorage.prototype, 'load').callsFake(function () {
+                    this.options = storageOptions;
+
+                    return !!storageOptions;
+                });
+
+                sinon.stub(authorizationStorage.prototype, 'save').callsFake(function () {
+                    storageOptions = this.options;
+                });
+            };
+
+            const stubPrompts = ({ confirmValues = [] } = {}) => {
+                sinon.stub(prompts, 'confirm').callsFake(({ message }) => {
+                    promptsMessages.push(message);
+
+                    return Promise.resolve(confirmValues.shift());
+                });
+            };
+
+            const cleanUpFlagsRecordedData = () => {
+                authorization._expectedHash = '';
+                authorization._hash         = '';
+                authorization._isAuthorized = false;
+                authorization._isSkipped    = false;
+                promptsMessages             = [];
+            };
+
+            beforeEach(() => {
+                sinon.spy(console, 'log');
+            });
+
+            afterEach(() => {
+                sinon.restore();
+
+                cleanUpFlagsRecordedData();
+            });
+
+            it('Should ask about authorization', async () => {
+                stubAuthorization();
+                stubAuthorizationStorage();
+                stubPrompts();
+
+                await runner._authorize();
+
+                expect(promptsMessages.length).eql(1);
+                expect(promptsMessages[0]).contains(authorizationMessages.AUTHORIZATION_REQUEST);
+            });
+
+            it('Should authorize', async () => {
+                stubAuthorization();
+                stubAuthorizationStorage();
+                stubPrompts({ confirmValues: [true] });
+
+                await runner._authorize();
+
+                expect(console.log.callCount).eql(1);
+                expect(console.log.firstCall.args[0]).contains(authorizationMessages.AUTHORIZATION_COMPLETED);
+            });
+
+            it("Shouldn't ask about authorization if authorized", async () => {
+                stubAuthorization(DEFAULT_HASH_VALUE);
+                stubAuthorizationStorage({ authorizationHash: DEFAULT_HASH_VALUE });
+                stubPrompts();
+
+                await runner._authorize();
+
+                expect(promptsMessages.length).eql(0);
+                expect(console.log.callCount).eql(0);
+            });
+
+            it('Should skip authorization', async () => {
+                stubAuthorization();
+                stubAuthorizationStorage();
+                stubPrompts();
+
+                await runner._authorize();
+
+                expect(console.log.callCount).eql(1);
+                expect(console.log.firstCall.args[0]).contains(authorizationMessages.NOT_AUTHORIZED);
+            });
+
+            it("Shouldn't ask about authorization if skipped", async () => {
+                stubAuthorization();
+                stubAuthorizationStorage({ skipAuthorization: true });
+                stubPrompts();
+
+                await runner._authorize();
+
+                expect(promptsMessages.length).eql(0);
+                expect(console.log.callCount).eql(1);
+            });
+
+            it('Should log that not authorized if skipped', async () => {
+                stubAuthorization();
+                stubAuthorizationStorage();
+                stubPrompts();
+
+                await runner._authorize();
+
+                expect(console.log.callCount).eql(1);
+                expect(console.log.firstCall.args[0]).contains(authorizationMessages.NOT_AUTHORIZED);
+            });
+
+            it('Should log nothing if authorized after skipped', async () => {
+                stubAuthorization(DEFAULT_HASH_VALUE);
+                stubAuthorizationStorage({ authorizationHash: DEFAULT_HASH_VALUE, skipAuthorization: true });
+                stubPrompts();
+
+                await runner._authorize();
+
+                expect(promptsMessages.length).eql(0);
+                expect(console.log.callCount).eql(0);
+            });
         });
     });
 
