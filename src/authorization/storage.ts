@@ -38,13 +38,4 @@ export default class AuthorizationStorage {
 
         await this._storage.save(this.options);
     }
-
-    public async clear (): Promise<void> {
-        if (!this.isLoaded)
-            await this.load();
-
-        Object.assign(this.options, { ...DEFAULT_AUTHORIZATION_OPTIONS });
-
-        await this.save();
-    }
 }
