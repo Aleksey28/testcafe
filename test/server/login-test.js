@@ -12,7 +12,11 @@ let savedOptions = null;
 const createAuthorizationMock = (hash = DEFAULT_HASH_VALUE) => {
     const configStorageMock = {
         options: {},
-        load:    () => savedOptions,
+        load:    () => {
+            configStorageMock.options = savedOptions;
+
+            return !!savedOptions;
+        },
 
         save: () => {
             savedOptions = configStorageMock.options;
@@ -25,7 +29,7 @@ const createAuthorizationMock = (hash = DEFAULT_HASH_VALUE) => {
         },
     });
 
-    sinon.stub(authorization, 'openAuthPage').callsFake(() => {
+    sinon.stub(authorization, 'openLoginPage').callsFake(() => {
         return request(authorization.server.getUrl(`?${REQUEST_ACCESS_PARAM}=${hash}`));
     });
 
@@ -85,10 +89,20 @@ describe('Authorization', function () {
             expect(await authorization.isAuthorized()).not.ok;
         });
 
-        it('Should be authorized if authorization was skipped before', async function () {
+        it('Should be skipped if authorization was skipped before', async function () {
             await authorization.skip();
 
-            expect(await authorization.isAuthorized()).ok;
+            expect(await authorization.isSkipped()).ok;
+        });
+
+        it('Should check if need authorize', async function () {
+            expect(await authorization.needAuthorize()).ok;
+        });
+
+        it('Should check if need authorize if skipped before', async function () {
+            await authorization.skip();
+
+            expect(await authorization.needAuthorize()).ok;
         });
     });
 });
