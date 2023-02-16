@@ -748,9 +748,10 @@ export default class Runner extends EventEmitter {
                 await authorization.login();
             else
                 await authorization.skip();
+
+            needAuthorize = await authorization.needAuthorize();
         }
 
-        needAuthorize = await authorization.needAuthorize();
 
         if (needAuthorize) {
             this.isAuthorized = false;
