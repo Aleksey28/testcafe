@@ -19,6 +19,7 @@ const DISCONNECTED_TEXT = 'DISCONNECTED';
 const PAGE_BACKGROUND_CLASS_NAME    = 'page-background';
 const CONTAINER_CLASS_NAME          = 'container';
 const USER_AGENT_ELEMENT_CLASS_NAME = 'user-agent';
+const NOT_AUTHORIZED_CLASS_NAME     = 'not-authorized-message';
 const STATUS_ELEMENT_CLASS_NAME     = 'status';
 const CANVAS_CLASS_NAME             = 'spinner';
 
@@ -127,6 +128,8 @@ export default class StatusIndicator {
         const userAgentSpan = document.getElementsByClassName(USER_AGENT_ELEMENT_CLASS_NAME)[0].children[0];
         const statusSpan    = StatusIndicator._getStatusElementSpan();
 
+        const notAuthorizedSpan = document.getElementsByClassName(NOT_AUTHORIZED_CLASS_NAME)[0].children[0];
+
         // NOTE: We have established proportions for two edge cases:
         // the maximum spinner size of 400px corresponds to the 16px font,
         // the minimum spinner size of 240px corresponds to the 11px font.
@@ -140,6 +143,9 @@ export default class StatusIndicator {
 
         statusSpan.style.fontSize   = convertToString(fontSize);
         statusSpan.style.lineHeight = convertToString(lineHeight - 1);
+
+        notAuthorizedSpan.style.fontSize   = convertToString(fontSize - 1);
+        notAuthorizedSpan.style.lineHeight = convertToString(lineHeight - 3);
     }
 
     _watchWindowResize () {

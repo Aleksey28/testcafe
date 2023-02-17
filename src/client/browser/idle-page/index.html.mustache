@@ -28,12 +28,15 @@
 
 <script type="text/javascript">
     if (!{{{isAuthorized}}}) {
-        var notAuthorizedMessage = document.createElement('span');
-        var textArea             = document.querySelector('.status-text-area');
+        var notAuthorizedContainer = document.createElement('div');
+        var notAuthorizedElement   = document.createElement('span');
+        var statusTextArea         = document.querySelector('.status-text-area');
 
-        notAuthorizedMessage.textContent = 'You are not authorized';
+        notAuthorizedContainer.classList.add('not-authorized-message');
+        notAuthorizedElement.textContent = '{{{notAuthorizedMessage}}}';
 
-        textArea.append(notAuthorizedMessage);
+        notAuthorizedContainer.append(notAuthorizedElement);
+        statusTextArea.append(notAuthorizedContainer);
     }
 
     var idlePage = new IdlePage({

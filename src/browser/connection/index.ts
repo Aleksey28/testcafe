@@ -38,6 +38,7 @@ import { TestRun as LegacyTestRun } from 'testcafe-legacy-api';
 import { Proxy } from 'testcafe-hammerhead';
 import { NextTestRunInfo, OpenBrowserAdditionalOptions } from '../../shared/types';
 import { EventType } from '../../proxyless/types';
+import { NOT_AUTHORIZED as NOT_AUTHORIZED_MESSAGE } from '../../authorization/messages';
 
 const getBrowserConnectionDebugScope = (id: string): string => `testcafe:browser:connection:${id}`;
 
@@ -559,14 +560,15 @@ export default class BrowserConnection extends EventEmitter {
 
     public renderIdlePage (): string {
         return Mustache.render(IDLE_PAGE_TEMPLATE as string, {
-            userAgent:           this.connectionInfo,
-            statusUrl:           this.statusUrl,
-            heartbeatUrl:        this.heartbeatUrl,
-            initScriptUrl:       this.initScriptUrl,
-            openFileProtocolUrl: this.openFileProtocolUrl,
-            retryTestPages:      !!this.browserConnectionGateway.retryTestPages,
-            proxyless:           this.proxyless,
-            isAuthorized:        this.isAuthorized,
+            userAgent:            this.connectionInfo,
+            statusUrl:            this.statusUrl,
+            heartbeatUrl:         this.heartbeatUrl,
+            initScriptUrl:        this.initScriptUrl,
+            openFileProtocolUrl:  this.openFileProtocolUrl,
+            retryTestPages:       !!this.browserConnectionGateway.retryTestPages,
+            proxyless:            this.proxyless,
+            isAuthorized:         this.isAuthorized,
+            notAuthorizedMessage: NOT_AUTHORIZED_MESSAGE,
         });
     }
 
