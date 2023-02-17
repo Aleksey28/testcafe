@@ -2,6 +2,7 @@ const { expect }           = require('chai');
 const sinon                = require('sinon');
 const request              = require('request');
 const { SafeStorage }      = require('testcafe-safe-storage');
+const AuthorizationStorage = require('../../lib/authorization/storage');
 
 
 const REQUEST_ACCESS_PARAM = 'testcafeAccess';
@@ -52,6 +53,39 @@ describe('Authorization', function () {
     });
 
     describe('Storage', function () {
+        it('Should save option to authorization storage', async () => {
+            const storage = new AuthorizationStorage();
+
+            storage.options.option1 = 'value option 1';
+
+            await storage.save();
+
+            expect(savedOptions.option1).eql('value option 1');
+        });
+
+        it('Should load option from authorization storage', async () => {
+            savedOptions = { option1: 'value option 1' };
+
+            const storage = new AuthorizationStorage();
+
+            await storage.load();
+
+            expect(storage.options.option1).eql('value option 1');
+        });
+
+        it('Should preload options from storage before saving new', async () => {
+            savedOptions = { option1: 'value option 1' };
+
+            const storage = new AuthorizationStorage();
+
+            storage.options.option2 = 'value option 2';
+
+            await storage.save();
+
+            expect(storage.options.option1).eql('value option 1');
+            expect(storage.options.option2).eql('value option 2');
+        });
+
         it('Should save authorization hash to storage', async () => {
             await mockedAuthorization.login();
 
