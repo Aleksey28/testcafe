@@ -37,24 +37,34 @@ export default {
         }
     },
 
-    write (text) {
-        if (this.animation)
-            this.hideSpinner();
-
-        console.log(text);
-
-        if (this.animation)
+    showSpinnerIfNeeded (wasAnimated) {
+        if (wasAnimated)
             this.showSpinner();
     },
 
-    async prompt (options) {
-        if (this.animation)
+    hideSpinnerIfNeeded (wasAnimated) {
+        if (wasAnimated)
             this.hideSpinner();
+    },
+
+    write (text) {
+        const wasAnimated = !!this.animation;
+
+        this.hideSpinnerIfNeeded(wasAnimated);
+
+        console.log(text);
+
+        this.showSpinnerIfNeeded(wasAnimated);
+    },
+
+    async prompt (options) {
+        const wasAnimated = !!this.animation;
+
+        this.hideSpinnerIfNeeded(wasAnimated);
 
         const res = await prompts(options);
 
-        if (this.animation)
-            this.showSpinner();
+        this.showSpinnerIfNeeded(wasAnimated);
 
         return res;
     },
