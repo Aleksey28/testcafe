@@ -98,6 +98,7 @@ export default class CLIArgumentParser {
     private remoteCount: number;
     public isDashboardCommand: boolean;
     public isLoginCommand: boolean;
+    public isLogoutCommand: boolean;
     public sendReportState: SendReportState;
     public opts: CommandLineOptions;
     public args: string[];
@@ -111,10 +112,12 @@ export default class CLIArgumentParser {
 
         this.isDashboardCommand = false;
         this.isLoginCommand     = false;
+        this.isLogoutCommand    = false;
         this.testCafeCommand    = this._addTestCafeCommand();
 
         this._patchHelpOutput(this.testCafeCommand);
         this._addLoginSubcommand();
+        this._addLogoutSubcommand();
         CLIArgumentParser._setupRootCommand();
     }
 
@@ -144,6 +147,16 @@ export default class CLIArgumentParser {
             .description('Login in TestCafe.')
             .action(() => {
                 this.isLoginCommand = true;
+            });
+    }
+
+    private _addLogoutSubcommand (): void {
+        CLIArgumentParser._removeCommandIfExists(COMMAND_NAMES.Logout);
+
+        (program as unknown as Command)
+            .command(COMMAND_NAMES.Logout)
+            .action(() => {
+                this.isLogoutCommand = true;
             });
     }
 
