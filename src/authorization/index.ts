@@ -136,7 +136,7 @@ class Authorization {
         else
             await this.setResponse(res, 403, RESPONSE_FILE_REJECT);
 
-        this.loginResolver?.();
+        (this.loginResolver as Function)();
     }
 
     private isAccessed (): boolean {
