@@ -178,12 +178,16 @@ async function listBrowsers (providerName) {
 }
 
 async function login () {
+    log.showSpinner();
+
     await authorization.login();
 
     exit(0);
 }
 
 async function logout () {
+    log.showSpinner();
+
     await authorization.logout();
 
     exit(0);
