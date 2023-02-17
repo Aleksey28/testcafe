@@ -1,7 +1,7 @@
-const { expect } = require('chai');
-const proxyquire = require('proxyquire');
-const sinon      = require('sinon');
-const request    = require('request');
+const { expect }           = require('chai');
+const sinon                = require('sinon');
+const request              = require('request');
+const { SafeStorage }      = require('testcafe-safe-storage');
 
 
 const REQUEST_ACCESS_PARAM = 'testcafeAccess';
@@ -10,24 +10,11 @@ const DEFAULT_HASH_VALUE   = 'hash';
 let savedOptions = null;
 
 const createAuthorizationMock = (hash = DEFAULT_HASH_VALUE) => {
-    const configStorageMock = {
-        options: {},
-        load:    () => {
-            configStorageMock.options = savedOptions;
+    const path = '../../lib/authorization';
 
-            return !!savedOptions;
-        },
+    delete require.cache[require.resolve(path)];
 
-        save: () => {
-            savedOptions = configStorageMock.options;
-        },
-    };
-
-    const authorization = proxyquire('../../lib/authorization', {
-        '../authorization/storage': function () {
-            return configStorageMock;
-        },
-    });
+    const authorization = require(path);
 
     sinon.stub(authorization, 'openLoginPage').callsFake(() => {
         return request(authorization.server.getUrl(`?${REQUEST_ACCESS_PARAM}=${hash}`));
@@ -40,12 +27,22 @@ const createAuthorizationMock = (hash = DEFAULT_HASH_VALUE) => {
     return authorization;
 };
 
+function stubSafeStorage () {
+    sinon.stub(SafeStorage.prototype, 'tryLoad').callsFake(() => {
+        return savedOptions;
+    });
+
+    sinon.stub(SafeStorage.prototype, 'save').callsFake((options) => {
+        savedOptions = options;
+    });
+}
 
 describe('Authorization', function () {
-    let authorization = null;
+    let mockedAuthorization = null;
 
     beforeEach(() => {
-        authorization = createAuthorizationMock();
+        stubSafeStorage();
+        mockedAuthorization = createAuthorizationMock();
     });
 
     afterEach(() => {
@@ -56,13 +53,13 @@ describe('Authorization', function () {
 
     describe('Storage', function () {
         it('Should save authorization hash to storage', async () => {
-            await authorization.login();
+            await mockedAuthorization.login();
 
             expect(savedOptions.authorizationHash).equal(DEFAULT_HASH_VALUE);
         });
 
         it('Should save skip authorization flag to storage', async () => {
-            await authorization.skip();
+            await mockedAuthorization.skip();
 
             expect(savedOptions.skipAuthorization).ok;
         });
@@ -70,39 +67,39 @@ describe('Authorization', function () {
 
     describe('Login', function () {
         it('Should be authorized if access param is correct', async function () {
-            await authorization.login();
+            await mockedAuthorization.login();
 
-            expect(await authorization.isAuthorized()).ok;
+            expect(await mockedAuthorization.isAuthorized()).ok;
         });
 
         it('Should set hash if authorization was success', async function () {
-            await authorization.login();
+            await mockedAuthorization.login();
 
-            expect(authorization.hash).equal(DEFAULT_HASH_VALUE);
+            expect(mockedAuthorization.hash).equal(DEFAULT_HASH_VALUE);
         });
 
         it('Should not be authorized if access param is not correct', async function () {
-            authorization = createAuthorizationMock('incorrectHash');
+            mockedAuthorization = createAuthorizationMock('incorrectHash');
 
-            await authorization.login();
+            await mockedAuthorization.login();
 
-            expect(await authorization.isAuthorized()).not.ok;
+            expect(await mockedAuthorization.isAuthorized()).not.ok;
         });
 
         it('Should be skipped if authorization was skipped before', async function () {
-            await authorization.skip();
+            await mockedAuthorization.skip();
 
-            expect(await authorization.isSkipped()).ok;
+            expect(await mockedAuthorization.isSkipped()).ok;
         });
 
         it('Should check if need authorize', async function () {
-            expect(await authorization.needAuthorize()).ok;
+            expect(await mockedAuthorization.needAuthorize()).ok;
         });
 
         it('Should check if need authorize if skipped before', async function () {
-            await authorization.skip();
+            await mockedAuthorization.skip();
 
-            expect(await authorization.needAuthorize()).ok;
+            expect(await mockedAuthorization.needAuthorize()).ok;
         });
     });
 });
