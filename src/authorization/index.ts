@@ -12,7 +12,7 @@ import isDocker from 'is-docker';
 import isPodman from 'is-podman';
 import {
     AUTHORIZATION_COMPLETED,
-    AUTHORIZATION_DENIED,
+    AUTHORIZATION_FAILED,
     AUTHORIZATION_REQUEST,
 } from './messages';
 
@@ -98,7 +98,7 @@ class Authorization {
 
     private async authorize (): Promise<void> {
         if (!this.isAccessed()) {
-            log.write(AUTHORIZATION_DENIED);
+            log.write(AUTHORIZATION_FAILED);
             return;
         }
 
