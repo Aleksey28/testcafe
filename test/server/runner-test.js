@@ -1453,6 +1453,18 @@ describe('Runner', () => {
                 expect(console.log.firstCall.args[0]).contains(authorizationMessages.AUTHORIZATION_COMPLETED);
             });
 
+            it('Should fail authorization', async () => {
+                stubAuthorization('wrong hash');
+                stubAuthorizationStorage();
+                stubPrompts({ confirmValues: [true] });
+
+                await runner._authorize();
+
+                expect(console.log.callCount).eql(2);
+                expect(console.log.firstCall.args[0]).contains(authorizationMessages.AUTHORIZATION_FAILED);
+                expect(console.log.secondCall.args[0]).contains(authorizationMessages.NOT_AUTHORIZED);
+            });
+
             it("Shouldn't ask about authorization if authorized", async () => {
                 stubAuthorization(DEFAULT_HASH_VALUE);
                 stubAuthorizationStorage({ authorizationHash: DEFAULT_HASH_VALUE });
@@ -1467,7 +1479,7 @@ describe('Runner', () => {
             it('Should skip authorization', async () => {
                 stubAuthorization();
                 stubAuthorizationStorage();
-                stubPrompts();
+                stubPrompts({ confirmValues: [false] });
 
                 await runner._authorize();
 
