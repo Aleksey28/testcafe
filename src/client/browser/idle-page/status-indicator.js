@@ -128,7 +128,7 @@ export default class StatusIndicator {
         const userAgentSpan = document.getElementsByClassName(USER_AGENT_ELEMENT_CLASS_NAME)[0].children[0];
         const statusSpan    = StatusIndicator._getStatusElementSpan();
 
-        const notAuthorizedSpan = document.getElementsByClassName(NOT_AUTHORIZED_CLASS_NAME)[0].children[0];
+        const notAuthorizedSpan = document.getElementsByClassName(NOT_AUTHORIZED_CLASS_NAME)[0]?.children[0];
 
         // NOTE: We have established proportions for two edge cases:
         // the maximum spinner size of 400px corresponds to the 16px font,
@@ -144,8 +144,10 @@ export default class StatusIndicator {
         statusSpan.style.fontSize   = convertToString(fontSize);
         statusSpan.style.lineHeight = convertToString(lineHeight - 1);
 
-        notAuthorizedSpan.style.fontSize   = convertToString(fontSize - 1);
-        notAuthorizedSpan.style.lineHeight = convertToString(lineHeight - 3);
+        if (notAuthorizedSpan) {
+            notAuthorizedSpan.style.fontSize   = convertToString(fontSize - 1);
+            notAuthorizedSpan.style.lineHeight = convertToString(lineHeight - 3);
+        }
     }
 
     _watchWindowResize () {

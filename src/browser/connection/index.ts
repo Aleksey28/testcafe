@@ -567,7 +567,7 @@ export default class BrowserConnection extends EventEmitter {
             openFileProtocolUrl:  this.openFileProtocolUrl,
             retryTestPages:       !!this.browserConnectionGateway.retryTestPages,
             proxyless:            this.proxyless,
-            isAuthorized:         this.isAuthorized,
+            isAuthorized:         !!this.isAuthorized,
             notAuthorizedMessage: NOT_AUTHORIZED_MESSAGE,
         });
     }

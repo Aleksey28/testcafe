@@ -74,6 +74,7 @@ export default class Runner extends EventEmitter {
         this._options            = {};
         this._hasTaskErrors      = false;
         this._reporters          = null;
+        this.isAuthorized        = true;
 
         this.apiMethodWasCalled = new FlagList([
             OPTION_NAMES.src,
