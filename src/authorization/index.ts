@@ -22,7 +22,6 @@ const AUTH_RETURN_URL           = 'returnUrl';
 const REQUEST_ACCESS_PARAM      = 'testcafeAccess';
 const RESPONSE_FILE_RESOLVE     = 'resolve-response.html.mustache';
 const RESPONSE_FILE_REJECT      = 'reject-response.html.mustache';
-const RESULT_PAGE_CLOSE_TIMEOUT = 1000;
 
 const authorizationStorage  = new AuthorizationStorage();
 
@@ -160,9 +159,7 @@ class Authorization {
         const pagePath     = path.resolve(__dirname, pageFileName);
         const pageTemplate = await readFile(pagePath);
 
-        return Mustache.render(pageTemplate.toString(), {
-            closeTimeout: RESULT_PAGE_CLOSE_TIMEOUT,
-        }) as string;
+        return Mustache.render(pageTemplate.toString(), {}) as string;
     }
 
     async needAuthorize (): Promise<boolean> {
