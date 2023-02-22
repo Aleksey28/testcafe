@@ -39,6 +39,7 @@ import { Proxy } from 'testcafe-hammerhead';
 import { NextTestRunInfo, OpenBrowserAdditionalOptions } from '../../shared/types';
 import { EventType } from '../../proxyless/types';
 import { NOT_AUTHORIZED as NOT_AUTHORIZED_MESSAGE } from '../../authorization/messages';
+import removeLineBreaks from '../../shared/utils/remove-line-breaks';
 
 const getBrowserConnectionDebugScope = (id: string): string => `testcafe:browser:connection:${id}`;
 
@@ -568,7 +569,7 @@ export default class BrowserConnection extends EventEmitter {
             retryTestPages:       !!this.browserConnectionGateway.retryTestPages,
             proxyless:            this.proxyless,
             isAuthorized:         !!this.isAuthorized,
-            notAuthorizedMessage: NOT_AUTHORIZED_MESSAGE,
+            notAuthorizedMessage: removeLineBreaks(NOT_AUTHORIZED_MESSAGE),
         });
     }
 
