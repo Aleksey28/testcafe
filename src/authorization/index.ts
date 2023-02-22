@@ -1,10 +1,7 @@
 import http from 'http';
-import path from 'path';
 import open from 'open';
 import { createHash } from 'crypto';
 import Server from './server';
-import { readFile } from '../utils/promisified-functions';
-import Mustache from 'mustache';
 import AuthorizationStorage from './storage';
 import log from '../cli/log';
 import isCI from 'is-ci';
@@ -17,11 +14,11 @@ import {
 } from './messages';
 
 
-const LOGIN_URL                 = 'https://www.devexpress.com/MyAccount/LogIn/';
-const AUTH_RETURN_URL           = 'returnUrl';
-const REQUEST_ACCESS_PARAM      = 'testcafeAccess';
-const RESPONSE_FILE_RESOLVE     = 'resolve-response.html.mustache';
-const RESPONSE_FILE_REJECT      = 'reject-response.html.mustache';
+const LOGIN_URL            = 'https://www.devexpress.com/MyAccount/LogIn/';
+const AUTH_RETURN_URL      = 'returnUrl';
+const REQUEST_ACCESS_PARAM = 'testcafeAccess';
+const RESPONSE_URL_RESOLVE = 'https://alexkamaev.github.io/authorization/complete';
+const RESPONSE_URL_REJECT  = 'https://alexkamaev.github.io/authorization/error';
 
 const authorizationStorage  = new AuthorizationStorage();
 
@@ -131,9 +128,9 @@ class Authorization {
         this._hash = this.getAccessParam(req.url, req.headers.host);
 
         if (this.isAccessed())
-            await this.setResponse(res, 200, RESPONSE_FILE_RESOLVE);
+            await this.setResponse(res, RESPONSE_URL_RESOLVE);
         else
-            await this.setResponse(res, 403, RESPONSE_FILE_REJECT);
+            await this.setResponse(res, RESPONSE_URL_REJECT);
 
         (this.loginResolver as Function)();
     }
@@ -148,18 +145,10 @@ class Authorization {
         return requestedUrl.searchParams.get(REQUEST_ACCESS_PARAM) || '';
     }
 
-    private async setResponse (res: http.ServerResponse, statusCode: number, pageFileName: string): Promise<void> {
-        res.statusCode = statusCode;
-        res.setHeader('Content-Type', 'text/html');
-        res.write(await this.getResponseBody(pageFileName));
+    private async setResponse (res: http.ServerResponse, url: string): Promise<void> {
+        res.statusCode = 301;
+        res.setHeader('Location', url);
         res.end();
-    }
-
-    private async getResponseBody (pageFileName: string): Promise<string> {
-        const pagePath     = path.resolve(__dirname, pageFileName);
-        const pageTemplate = await readFile(pagePath);
-
-        return Mustache.render(pageTemplate.toString(), {}) as string;
     }
 
     async needAuthorize (): Promise<boolean> {
