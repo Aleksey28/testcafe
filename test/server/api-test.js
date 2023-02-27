@@ -1806,10 +1806,8 @@ describe('API', function () {
                 './testcafe':      TestCafe,
                 'async-exit-hook': () => {},
 
-                'endpoint-utils': {
-                    isMyHostname: sinon.stub().resolves(true),
-                    isFreePort:   sinon.stub().resolves(true),
-                },
+                './utils/get-valid-hostname': (hostname) => hostname,
+                './utils/get-valid-port':     (port) => port,
             });
 
             await createTestCafe('my-host', 1337, 1338, { test: 42 }, true, true);
@@ -1832,10 +1830,8 @@ describe('API', function () {
                 './testcafe':      TestCafe,
                 'async-exit-hook': () => {},
 
-                'endpoint-utils': {
-                    isMyHostname: sinon.stub().resolves(true),
-                    isFreePort:   sinon.stub().resolves(true),
-                },
+                './utils/get-valid-hostname': (hostname) => hostname,
+                './utils/get-valid-port':     (port) => port,
             });
 
             await createTestCafe({
