@@ -6,7 +6,7 @@ const endpointUtils    = lazyRequire('endpoint-utils');
 
 async function getValidPort (port?: number): Promise<number> {
     if (port) {
-        const isFree = await endpointUtils.isFreePort(port) as number;
+        const isFree = await endpointUtils.isFreePort(port);
 
         if (!isFree)
             throw new GeneralError(RUNTIME_ERRORS.portIsNotFree, port);

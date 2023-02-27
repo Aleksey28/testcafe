@@ -6,7 +6,7 @@ const endpointUtils    = lazyRequire('endpoint-utils');
 
 async function getValidHostname (hostname?: string): Promise<string> {
     if (hostname) {
-        const valid = await endpointUtils.isMyHostname(hostname) as string;
+        const valid = await endpointUtils.isMyHostname(hostname);
 
         if (!valid)
             throw new GeneralError(RUNTIME_ERRORS.invalidHostname, hostname);
