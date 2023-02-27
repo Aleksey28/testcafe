@@ -144,7 +144,7 @@ export default class CLIArgumentParser {
 
         (program as unknown as Command)
             .command(COMMAND_NAMES.Login)
-            .description('Log into a DevExpress account (Opens the default web browser).')
+            .description('Log into a DevExpress.com account (Opens the default web browser).')
             .action(() => {
                 this.isLoginCommand = true;
             });
@@ -155,7 +155,7 @@ export default class CLIArgumentParser {
 
         (program as unknown as Command)
             .command(COMMAND_NAMES.Logout)
-            .description('Log out of the current DevExpress account.')
+            .description('Log out of the current DevExpress.com account.')
             .action(() => {
                 this.isLogoutCommand = true;
             });
