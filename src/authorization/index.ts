@@ -12,6 +12,7 @@ import {
     AUTHORIZATION_FAILED,
     AUTHORIZATION_REQUEST,
 } from './messages';
+import checkIsVM from '../utils/check-is-vm';
 
 
 const LOGIN_URL            = 'https://www.devexpress.com/MyAccount/LogIn/';
@@ -154,7 +155,7 @@ class Authorization {
     async needAuthorize (): Promise<boolean> {
         const isAuthorized = await this.isAuthorized();
 
-        return !isAuthorized && !isCI && !isDocker() && !isPodman();
+        return !isCI && !checkIsVM() && !isDocker() && !isPodman() && !isAuthorized;
     }
 
     async askAuthorization (): Promise<{authorize: boolean}> {

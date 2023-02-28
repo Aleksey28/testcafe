@@ -666,7 +666,7 @@ describe('Utils', () => {
         const vendors = ['virtual', 'vmware', 'hyperv', 'wsl', 'hyper-v', 'microsoft', 'parallels', 'qemu'];
 
         const checkVMVendors = async (platform, stdout = '') => {
-            const { checkIsVM } = proxyquire('../../lib/utils/check-is-vm', {
+            const checkIsVM = proxyquire('../../lib/utils/check-is-vm', {
                 '../../lib/utils/promisified-functions': {
                     exec: () => Promise.resolve({ stdout }),
                 },

@@ -52,7 +52,7 @@ async function isMacVM (): Promise<boolean> {
     return VM_REGEX.test(await getCommandOutput(COMMANDS.MAC_MANUFACTURER));
 }
 
-export async function checkIsVM (): Promise<boolean> {
+export default async function checkIsVM (): Promise<boolean> {
     switch (os.platform()) {
         case PLATFORM.LINUX: return await isLinuxVM();
         case PLATFORM.WIN: return await isWinVM();
