@@ -30,6 +30,10 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: console.log(context.issue)
+      - name: View inputs attributes
+        uses: actions/github-script@v6
+        with:
+          script: console.log(${{ inputs }})
       - name: Build Info
         run: |
           echo "SHA: ${{ github.event.inputs.sha }}"

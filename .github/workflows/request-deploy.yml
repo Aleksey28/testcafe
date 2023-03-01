@@ -32,6 +32,18 @@ jobs:
     if: ${{ !cancelled() && (needs.authenticate.result == 'success' || needs.authenticate.result == 'skipped') }}
     
     steps:
+      - name: View context attributes
+        uses: actions/github-script@v6
+        with:
+          script: console.log(context)
+      - name: View context.repo attributes
+        uses: actions/github-script@v6
+        with:
+          script: console.log(context.repo)
+      - name: View context.issue attributes
+        uses: actions/github-script@v6
+        with:
+          script: console.log(context.issue)
       - name: Request Deployment
         uses: actions/github-script@v6
         with:
