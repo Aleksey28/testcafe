@@ -15,7 +15,7 @@ jobs:
   test:
     uses: ./.github/workflows/test-functional.yml
     with:
-      test-script: 'npx gulp test-functional-travis-desktop-osx-and-ms-edge-run --steps-as-tasks'
+      test-script: 'npx gulp test-functional-travis-desktop-osx-run --steps-as-tasks'
       os: 'browserstack'
       use-public-hostname: true
       timeout: 35
