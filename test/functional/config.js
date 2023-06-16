@@ -4,6 +4,7 @@ const browserProviderNames = {
     sauceLabs:    'sauceLabs',
     browserstack: 'browserstack',
     remote:       'remote',
+    safari:       'safari',
 };
 
 const testingEnvironmentNames = {
@@ -13,6 +14,7 @@ const testingEnvironmentNames = {
     localBrowsersChromeFirefox:  'local-browsers-chrome-firefox',
     localBrowsers:               'local-browsers',
     localChrome:                 'local-chrome',
+    localSafari:                 'local-safari',
     localHeadlessChrome:         'local-headless-chrome',
     localHeadlessEdge:           'local-headless-edge',
     localHeadlessFirefox:        'local-headless-firefox',
@@ -25,12 +27,7 @@ const testingEnvironments = {};
 testingEnvironments[testingEnvironmentNames.osXDesktopAndMSEdgeBrowsers] = {
     isLocalBrowsers: true,
 
-    browsers: [
-        {
-            browserName: 'safari',
-            alias:       'safari',
-        },
-    ],
+    browsers: [ ],
 };
 
 testingEnvironments[testingEnvironmentNames.mobileBrowsers] = {
@@ -102,6 +99,21 @@ testingEnvironments[testingEnvironmentNames.localBrowsersChromeFirefox] = {
             platform:    'Windows 10',
             browserName: 'firefox',
             alias:       'firefox',
+        },
+    ],
+};
+
+testingEnvironments[testingEnvironmentNames.localSafari] = {
+    remote:   true,
+    provider: browserProviderNames.safari,
+
+    safari: {},
+
+    browsers: [
+        {
+            browserName: 'safari',
+            userAgent:   'safari',
+            alias:       'safari',
         },
     ],
 };
