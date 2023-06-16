@@ -104,12 +104,16 @@ testingEnvironments[testingEnvironmentNames.localBrowsersChromeFirefox] = {
 };
 
 testingEnvironments[testingEnvironmentNames.localSafari] = {
-    isLocalBrowsers: true,
+    remote:   true,
+    provider: browserProviderNames.safari,
+
+    safari: {},
 
     browsers: [
         {
-            browserName: 'chrome',
-            alias:       'chrome',
+            browserName: 'safari',
+            userAgent:   'safari',
+            alias:       'safari',
         },
     ],
 };
