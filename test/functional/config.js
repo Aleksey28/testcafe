@@ -23,17 +23,11 @@ const testingEnvironmentNames = {
 const testingEnvironments = {};
 
 testingEnvironments[testingEnvironmentNames.osXDesktopAndMSEdgeBrowsers] = {
-    jobName:  'functional tests - OS X desktop and MS edge browsers',
-    provider: browserProviderNames.browserstack,
-
-    browserstack: {
-        username:  process.env.BROWSER_STACK_USERNAME,
-        accessKey: process.env.BROWSER_STACK_ACCESS_KEY,
-    },
+    isLocalBrowsers: true,
 
     browsers: [
         {
-            browserName: 'browserstack:safari',
+            browserName: 'safari',
             alias:       'safari',
         },
     ],
