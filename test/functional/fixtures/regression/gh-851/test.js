@@ -1,5 +1,5 @@
 /* eslint-disable */
-describe('[Regression](GH-851)', function () {
+describe.only('[Regression](GH-851)', function () {
     it('Should raise click for common parent element except in Firefox', function () {
         return runTests('testcafe-fixtures/index.test.js', 'Raise click for common parent', { skip: ['firefox', 'firefox-osx'] });
     });
