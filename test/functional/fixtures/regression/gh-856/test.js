@@ -1,5 +1,5 @@
 /* eslint-disable */
-describe.only('[Regression](GH-856) Test should not hang when redirect occurs after the page is loaded', function () {
+describe('[Regression](GH-856) Test should not hang when redirect occurs after the page is loaded', function () {
     it('gh-856', function () {
         return runTests('testcafe-fixtures/index-test.js', 'gh-856');
     });
