@@ -15,13 +15,14 @@ module.exports = class SafariConnector {
     }
 
     startBrowser (settings, url) {
-        exec(`open -a /Applications/Safari.app ${url}`, (...args) => DEBUG(args));
+        this.childProcess = exec(`open -a /Applications/Safari.app ${url}`, (...args) => DEBUG(args));
 
         return Promise.resolve();
     }
 
     stopBrowser (browser) {
         console.log(`${new Date()} -> file: safari-connector.js:24 -> SafariConnector -> stopBrowser -> browser:`, browser);
+        this.childProcess.kill('SIGINT');
         return Promise.resolve();
     }
 
