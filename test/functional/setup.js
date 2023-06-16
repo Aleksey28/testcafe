@@ -1,3 +1,4 @@
+/* eslint-disable */
 const path                       = require('path');
 const SlConnector                = require('saucelabs-connector');
 const BsConnector                = require('browserstack-connector');
@@ -134,6 +135,7 @@ function waitUntilBrowsersConnected () {
 }
 
 async function closeRemoteBrowsers () {
+    console.log(`${new Date()} -> file: setup.js:137 -> closeRemoteBrowsers -> closeRemoteBrowsers:`);
     const closeBrowserPromises = browserInstances.map(browser => connector.stopBrowser(isBrowserStack ? browser.id : browser));
 
     await Promise.all(closeBrowserPromises);

@@ -1,3 +1,4 @@
+/* eslint-disable */
 const { exec } = require('child_process');
 const debug    = require('debug');
 
@@ -19,7 +20,8 @@ module.exports = class SafariConnector {
         return Promise.resolve();
     }
 
-    stopBrowser () {
+    stopBrowser (browser) {
+        console.log(`${new Date()} -> file: safari-connector.js:24 -> SafariConnector -> stopBrowser -> browser:`, browser);
         return Promise.resolve();
     }
 
