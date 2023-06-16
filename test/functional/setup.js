@@ -381,6 +381,6 @@ after(async function () {
     else
         await closeLocalBrowsers();
 
-    process.kill('SIGINT');
+    process.kill(0);
 });
 
