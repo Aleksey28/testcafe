@@ -135,7 +135,7 @@ function waitUntilBrowsersConnected () {
 }
 
 async function closeRemoteBrowsers () {
-    console.log(`${new Date()} -> file: setup.js:137 -> closeRemoteBrowsers -> closeRemoteBrowsers:`);
+    console.log(`${new Date()} -> file: setup.js:140 -> closeRemoteBrowsers -> browserInstances:`, browserInstances);
     const closeBrowserPromises = browserInstances.map(browser => connector.stopBrowser(isBrowserStack ? browser.id : browser));
 
     await Promise.all(closeBrowserPromises);
@@ -380,5 +380,7 @@ after(async function () {
     }
     else
         await closeLocalBrowsers();
+
+    process.kill('SIGINT');
 });
 
