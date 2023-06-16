@@ -1,5 +1,5 @@
 /* eslint-disable */
-describe.only('[Regression](GH-987)', function () {
+describe('[Regression](GH-987)', function () {
     describe('Should fully show the target element on performing an action', function () {
         it('Click on the bottom element in the vertical container', function () {
             return runTests('./testcafe-fixtures/index.test.js', 'Scroll the vertical container to the bottom element');
