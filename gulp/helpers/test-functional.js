@@ -64,10 +64,14 @@ module.exports = async function testFunctional (src, testingEnvironmentName, { n
         mocha.addFile(file);
     });
 
+    /* eslint-disable */
     return new Promise((resolve, reject) => {
         mocha.run(err => {
-            if (err)
+            if (err) {
+                console.log(`${new Date()} -> file: test-functional.js:70 -> returnnewPromise -> err:`, err);
+
                 reject(err);
+            }
 
             resolve();
         });
