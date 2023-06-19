@@ -69,7 +69,7 @@ module.exports = async function testFunctional (src, testingEnvironmentName, { n
         mocha.run(err => {
             console.log(`${new Date()} -> file: test-functional.js:70 -> returnnewPromise -> err:`, err);
 
-            process.kill(0);
+            // process.kill(0);
             if (err) {
                 // console.log(`${new Date()} -> file: test-functional.js:70 -> returnnewPromise -> err:`, err);
 
