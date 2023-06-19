@@ -73,7 +73,7 @@ module.exports = async function testFunctional (src, testingEnvironmentName, { n
             if (err) {
                 // console.log(`${new Date()} -> file: test-functional.js:70 -> returnnewPromise -> err:`, err);
 
-                resolve();
+                reject(err);
             }
 
             resolve();

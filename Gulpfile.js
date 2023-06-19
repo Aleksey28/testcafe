@@ -431,7 +431,7 @@ gulp.step('test-functional-local-safari-after-run', () => {
     return Promise.resolve();
 });
 
-gulp.task('test-functional-local-safari', gulp.series('prepare-tests', 'test-functional-local-safari-before-run', 'test-functional-local-safari-run', 'test-functional-local-safari-after-run'));
+gulp.task('test-functional-local-safari', gulp.series('test-functional-local-safari-before-run', 'test-functional-local-safari-run', 'test-functional-local-safari-after-run'));
 
 gulp.step('test-functional-local-headless-chrome-run', () => {
     return testFunctional(TESTS_GLOB, functionalTestConfig.testingEnvironmentNames.localHeadlessChrome);
