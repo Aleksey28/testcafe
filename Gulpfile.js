@@ -428,6 +428,7 @@ gulp.step('test-functional-local-safari-run', () => {
 
 gulp.step('test-functional-local-safari-after-run', () => {
     console.log('step after run');
+    process.kill(0);
     return Promise.resolve();
 });
 
