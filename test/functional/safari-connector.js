@@ -36,7 +36,7 @@ module.exports = class SafariConnector {
     stopBrowser (browser) {
         console.log(`${new Date()} -> file: safari-connector.js:24 -> SafariConnector -> stopBrowser -> browser:`, browser);
         console.log(`${new Date()} -> file: safari-connector.js:26 -> SafariConnector -> stopBrowser -> this.childProcess.connected:`, this.childProcess.connected);
-        this.childProcess.kill('SIGINT');
+        // this.childProcess.kill('SIGINT');
         return Promise.resolve();
     }
 
