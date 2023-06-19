@@ -381,6 +381,6 @@ after(async function () {
     else
         await closeLocalBrowsers();
 
-    process.kill(0);
+    // process.kill(0);
 });
 
