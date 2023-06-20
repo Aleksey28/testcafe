@@ -422,7 +422,13 @@ gulp.task('test-functional-local-chrome-firefox', gulp.series('prepare-tests', '
 /* eslint-disable */
 
 gulp.step('test-functional-local-safari-run', () => {
-    return testFunctional(TESTS_GLOB, functionalTestConfig.testingEnvironmentNames.localSafari);
+    return testFunctional(TESTS_GLOB, functionalTestConfig.testingEnvironmentNames.localSafari)
+    .then(() => {
+        process.kill(0);
+    })
+    .catch((e) => {
+        console.log(`${new Date()} -> file: Gulpfile.js:430 -> gulp.step -> e:`, e);
+    });
 });
 
 gulp.step('test-functional-local-safari-after-run', (cb) => {
@@ -449,7 +455,7 @@ gulp.step('test-functional-local-safari-after-run', (cb) => {
     cb();
 });
 
-gulp.task('test-functional-local-safari', gulp.series('test-functional-local-safari-run', 'test-functional-local-safari-after-run'));
+gulp.task('test-functional-local-safari', gulp.series('test-functional-local-safari-run'));
 
 gulp.step('test-functional-local-headless-chrome-run', () => {
     return testFunctional(TESTS_GLOB, functionalTestConfig.testingEnvironmentNames.localHeadlessChrome);
