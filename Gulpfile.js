@@ -424,7 +424,7 @@ gulp.step('test-functional-local-safari-run', () => {
 
 gulp.step('test-functional-local-safari-after-run', () => {
     console.log('step after run');
-    // process.exit(0);
+    process.exit(0);
     return Promise.resolve('the value is ignored');
 });
 
