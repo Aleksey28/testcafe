@@ -424,7 +424,13 @@ gulp.step('test-functional-local-safari-run', () => {
 
 gulp.step('test-functional-local-safari-after-run', () => {
     console.log('step after run');
-    setTimeout(() => process.abort(), 10000);
+    setTimeout(() => {
+      console.log('start');
+      process.nextTick(() => {
+        console.log('nextTick callback');
+      });
+      console.log('scheduled');
+    }, 10000);
     return Promise.resolve('resolve');
 });
 
