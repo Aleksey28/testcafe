@@ -66,7 +66,8 @@ module.exports = async function testFunctional (src, testingEnvironmentName, { n
 
     /* eslint-disable */
     return new Promise((resolve, reject) => {
-        mocha.run(err => {
+      mocha.run(err => {
+            console.log(`${new Date()} -> file: test-functional.js:59 -> testFunctional -> process.pid:`, process.pid);
             console.log(`${new Date()} -> file: test-functional.js:70 -> returnnewPromise -> err:`, err);
 
             // process.kill(0);

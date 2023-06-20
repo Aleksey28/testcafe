@@ -382,6 +382,8 @@ after(async function () {
         await closeLocalBrowsers();
 
     // process.kill(0);
-    process.disconnect();
+    // process.disconnect();
+    console.log(`${new Date()} -> file: setup.js:386 -> process.pid:`, process.pid);
+    process.exit(0);
 });
 
