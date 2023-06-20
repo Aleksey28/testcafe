@@ -448,7 +448,7 @@ gulp.step('test-functional-local-safari-after-run', (cb) => {
     setTimeout(() => {
 
       nodeLog();
-    }, 1000)
+    }, 100)
     cb();
 });
 
@@ -481,7 +481,7 @@ gulp.step('test-functional-local-headless-chrome-after-run', (cb) => {
   setTimeout(() => {
 
     nodeLog();
-  }, 1000)
+  }, 100)
   cb();
 });
 
