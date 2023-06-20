@@ -384,6 +384,6 @@ after(async function () {
     // process.kill(0);
     // process.disconnect();
     console.log(`${new Date()} -> file: setup.js:386 -> process.pid:`, process.pid);
-    process.exit(0);
+    // process.exit(0);
 });
 
