@@ -431,10 +431,10 @@ gulp.step('test-functional-local-safari-after-run', (cb) => {
     // }, 1000);
     console.log(`${new Date()} -> file: Gulpfile.js:429 -> //setTimeout -> process.pid:`, process.pid);
     nodeLog();
-    setTimeout(function () {
-      console.log('LOG AFTER TIMEOUT');
-      nodeLog() // logs out active handles that are keeping node running
-    }, 1000)
+    // setTimeout(function () {
+    //   console.log('LOG AFTER TIMEOUT');
+    //   nodeLog() // logs out active handles that are keeping node running
+    // }, 1000)
     cb();
 });
 
