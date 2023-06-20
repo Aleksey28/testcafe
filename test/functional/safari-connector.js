@@ -32,6 +32,21 @@ module.exports = class SafariConnector {
     }
 
     stopBrowser () {
+      console.log(`${new Date()} -> file: safari-connector.js:35 -> SafariConnector -> stopBrowser -> stopBrowser:`);
+      const lsProcess = spawn(`osascript -e "tell application \"Safari\" to quit"`);
+
+        /* eslint-disable */
+        lsProcess.stdout.on('data', data => {
+            console.log(`stdout:\n${data}`);
+        });
+        lsProcess.stderr.on('data', (data) => {
+            console.log(`stdout: ${data}`);
+        });
+        lsProcess.on('exit', code => {
+            DEBUG(code);
+            console.log(`Process ended with ${code}`);
+        });
+
         return Promise.resolve();
     }
 
