@@ -456,7 +456,7 @@ gulp.step('test-functional-local-safari-after-run', (cb) => {
     setTimeout(() => {
 
       nodeLog();
-      treeKill(process);
+      treeKill(Number(process.pid));
     }, 100)
     cb();
 });
