@@ -422,13 +422,7 @@ gulp.task('test-functional-local-chrome-firefox', gulp.series('prepare-tests', '
 /* eslint-disable */
 
 gulp.step('test-functional-local-safari-run', () => {
-    return testFunctional(TESTS_GLOB, functionalTestConfig.testingEnvironmentNames.localSafari)
-    .then(() => {
-        process.exit(0);
-    })
-    .catch((e) => {
-        console.log(`${new Date()} -> file: Gulpfile.js:430 -> gulp.step -> e:`, e);
-    });
+    return testFunctional(TESTS_GLOB, functionalTestConfig.testingEnvironmentNames.localSafari);
 });
 
 gulp.step('test-functional-local-safari-after-run', (cb) => {
