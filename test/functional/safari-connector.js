@@ -1,4 +1,5 @@
-const { spawn } = require('child_process');
+/* eslint-disable */
+const { exec } = require('child_process');
 const debug    = require('debug');
 
 
@@ -14,38 +15,14 @@ module.exports = class SafariConnector {
     }
 
     startBrowser (settings, url) {
-        const lsProcess = spawn(`open -a /Applications/Safari.app ${url}`);
-
-        /* eslint-disable */
-        lsProcess.stdout.on('data', data => {
-            console.log(`stdout:\n${data}`);
-        });
-        lsProcess.stderr.on('data', (data) => {
-            console.log(`stdout: ${data}`);
-        });
-        lsProcess.on('exit', code => {
-            DEBUG(code);
-            console.log(`Process ended with ${code}`);
-        });
+        exec(`open -a /Applications/Safari.app ${url}`, (...args) => DEBUG(args));
 
         return Promise.resolve();
     }
 
     stopBrowser () {
-      console.log(`${new Date()} -> file: safari-connector.js:35 -> SafariConnector -> stopBrowser -> stopBrowser:`);
-      const lsProcess = spawn(`osascript -e "tell application \"Safari\" to quit"`);
-
-        /* eslint-disable */
-        lsProcess.stdout.on('data', data => {
-            console.log(`stdout:\n${data}`);
-        });
-        lsProcess.stderr.on('data', (data) => {
-            console.log(`stdout: ${data}`);
-        });
-        lsProcess.on('exit', code => {
-            DEBUG(code);
-            console.log(`Process ended with ${code}`);
-        });
+        console.log(`${new Date()} -> file: safari-connector.js:35 -> SafariConnector -> stopBrowser -> stopBrowser:`);
+        exec(`osascript -e "tell application \"Safari\" to quit"`, (...args) => DEBUG(args));
 
         return Promise.resolve();
     }
