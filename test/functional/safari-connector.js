@@ -1,5 +1,4 @@
-/* eslint-disable */
-const { exec } = require('child_process');
+const { spawn } = require('child_process');
 const debug    = require('debug');
 
 
@@ -15,28 +14,23 @@ module.exports = class SafariConnector {
     }
 
     startBrowser (settings, url) {
-        this.childProcess = exec(`open -a /Applications/Safari.app ${url}`, (...args) => DEBUG(args));
+        const lsProcess = spawn(`open -a /Applications/Safari.app ${url}`);
 
-        this.childProcess.addListener('close', () => {
-          console.log('Safari closed');
-        })
-        this.childProcess.addListener('error', () => {
-          console.log('Safari errored');
-        })
-        this.childProcess.addListener('disconnect', () => {
-          console.log('Safari disconnected');
-        })
-        this.childProcess.addListener('exit', () => {
-          console.log('Safari exit');
-        })
+        /* eslint-disable */
+        lsProcess.stdout.on('data', data => {
+            console.log(`stdout:\n${data}`);
+        });
+        lsProcess.stderr.on('data', (data) => {
+            console.log(`stdout: ${data}`);
+        });
+        lsProcess.on('exit', code => {
+            console.log(`Process ended with ${code}`);
+        });
 
         return Promise.resolve();
     }
 
-    stopBrowser (browser) {
-        console.log(`${new Date()} -> file: safari-connector.js:24 -> SafariConnector -> stopBrowser -> browser:`, browser);
-        console.log(`${new Date()} -> file: safari-connector.js:26 -> SafariConnector -> stopBrowser -> this.childProcess.connected:`, this.childProcess.connected);
-        // this.childProcess.kill('SIGINT');
+    stopBrowser () {
         return Promise.resolve();
     }
 

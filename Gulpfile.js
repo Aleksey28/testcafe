@@ -30,7 +30,6 @@ const testFunctional                = require('./gulp/helpers/test-functional');
 const moduleExportsTransform        = require('./gulp/helpers/module-exports-transform');
 const createPackageFilesForTests    = require('./gulp/helpers/create-package-files-for-tests');
 const nodeLog                       = require('why-is-node-running');
-const treeKill                      = require('tree-kill');
 
 global.internalTimers       = [];
 global.internalChildProcess = [];
@@ -456,7 +455,6 @@ gulp.step('test-functional-local-safari-after-run', (cb) => {
     setTimeout(() => {
 
       nodeLog();
-      treeKill(Number(process.pid));
     }, 100)
     cb();
 });
