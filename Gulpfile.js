@@ -422,13 +422,14 @@ gulp.step('test-functional-local-safari-run', () => {
     return testFunctional(TESTS_GLOB, functionalTestConfig.testingEnvironmentNames.localSafari);
 });
 
-gulp.step('test-functional-local-safari-after-run', () => {
+gulp.step('test-functional-local-safari-after-run', (cb) => {
+    console.log(`${new Date()} -> file: Gulpfile.js:426 -> gulp.step -> cb:`, cb);
     console.log('step after run');
     // setTimeout(() => {
     //   process.disconnect();
     // }, 1000);
     console.log(`${new Date()} -> file: Gulpfile.js:429 -> //setTimeout -> process.pid:`, process.pid);
-    return Promise.resolve('resolve');
+    cb();
 });
 
 gulp.task('test-functional-local-safari', gulp.series('test-functional-local-safari-run', 'test-functional-local-safari-after-run'));
