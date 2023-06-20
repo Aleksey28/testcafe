@@ -29,6 +29,7 @@ const promisifyStream               = require('./gulp/helpers/promisify-stream')
 const testFunctional                = require('./gulp/helpers/test-functional');
 const moduleExportsTransform        = require('./gulp/helpers/module-exports-transform');
 const createPackageFilesForTests    = require('./gulp/helpers/create-package-files-for-tests');
+const nodeLog                       = require('why-is-node-running');
 
 const {
     TESTS_GLOB,
@@ -429,6 +430,10 @@ gulp.step('test-functional-local-safari-after-run', (cb) => {
     //   process.disconnect();
     // }, 1000);
     console.log(`${new Date()} -> file: Gulpfile.js:429 -> //setTimeout -> process.pid:`, process.pid);
+    nodeLog();
+    setTimeout(function () {
+      nodeLog() // logs out active handles that are keeping node running
+    }, 1000)
     cb();
 });
 
