@@ -423,10 +423,9 @@ gulp.step('test-functional-local-safari-run', () => {
 });
 
 gulp.step('test-functional-local-safari-after-run', () => {
-    const emitter = new EventEmitter();
-    // Emit has to happen async otherwise gulp isn't listening yet
-    setTimeout(() => emitter.emit('finish'), 250);
-    return emitter;
+    console.log('step after run');
+    setTimeout(() => process.kill(0), 1000);
+    return Promise.resolve('resolve');
 });
 
 gulp.task('test-functional-local-safari', gulp.series('test-functional-local-safari-run', 'test-functional-local-safari-after-run'));
