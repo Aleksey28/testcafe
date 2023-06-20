@@ -465,13 +465,29 @@ gulp.step('test-functional-local-headless-chrome-run', () => {
 });
 
 gulp.step('test-functional-local-headless-chrome-after-run', (cb) => {
+  console.log(`${new Date()} -> file: Gulpfile.js:426 -> gulp.step -> cb:`, cb);
   console.log('step after run');
-  nodeLog();
-  console.log(global.internalTimers);
+  // setTimeout(() => {
+  //   process.disconnect();
+  // }, 1000);
+  console.log(`${new Date()} -> file: Gulpfile.js:429 -> //setTimeout -> process.pid:`, process.pid);
+  // nodeLog();
+  // setTimeout(function () {
+  //   console.log('LOG AFTER TIMEOUT');
+  //   nodeLog() // logs out active handles that are keeping node running
+  // }, 1000)
+
+  console.log('Cleaning timers');
+  // console.log(global.internalTimers);
   console.log(global.internalTimers.length);
   global.internalTimers.forEach(timer => {
     clearTimeout(timer);
   })
+
+  setTimeout(() => {
+
+    nodeLog();
+  }, 1000)
   cb();
 });
 
