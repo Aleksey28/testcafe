@@ -98,7 +98,11 @@ export default class VideoRecorder extends EventEmitter {
             file '${tempVideoPath}'
         `);
 
-        spawnSync(this.ffmpegPath, ['-y', '-f', 'concat', '-safe', '0', '-i', tempMergeConfigPath, '-c', 'copy', tmpMergeName], { stdio: 'ignore' });
+        const childProcess = spawnSync(this.ffmpegPath, ['-y', '-f', 'concat', '-safe', '0', '-i', tempMergeConfigPath, '-c', 'copy', tmpMergeName], { stdio: 'ignore' });
+
+        //@ts-ignore
+        global.internalChildProcess.push(childProcess);
+
         fs.copyFileSync(tmpMergeName, tempVideoPath);
     }
 

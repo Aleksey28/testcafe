@@ -85,8 +85,13 @@ export default class Runner extends EventEmitter {
         return Promise.all(reporters.map(reporter => reporter.dispose().catch(e => DEBUG_LOGGER(e))));
     }
 
+    /* eslint-disable */
     _disposeTestedApp (testedApp) {
-        return testedApp ? testedApp.kill().catch(e => DEBUG_LOGGER(e)) : Promise.resolve();
+        console.log(`${new Date()} -> file: index.js:89 -> Runner -> _disposeTestedApp -> !!testedApp:`, !!testedApp);
+        return testedApp ? testedApp.kill().catch(e => {
+          console.log(`${new Date()} -> file: index.js:94 -> Runner -> returntestedApp?testedApp.kill -> e:`, e);
+          DEBUG_LOGGER(e)
+        }) : Promise.resolve();
     }
 
     async _disposeTaskAndRelatedAssets (task, browserSet, reporters, testedApp) {

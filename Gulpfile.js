@@ -30,8 +30,10 @@ const testFunctional                = require('./gulp/helpers/test-functional');
 const moduleExportsTransform        = require('./gulp/helpers/module-exports-transform');
 const createPackageFilesForTests    = require('./gulp/helpers/create-package-files-for-tests');
 const nodeLog                       = require('why-is-node-running');
+const treeKill                      = require('tree-kill');
 
-global.internalTimers = [];
+global.internalTimers       = [];
+global.internalChildProcess = [];
 
 const {
     TESTS_GLOB,
@@ -440,14 +442,21 @@ gulp.step('test-functional-local-safari-after-run', (cb) => {
 
     console.log('Cleaning timers');
     // console.log(global.internalTimers);
-    console.log(global.internalTimers.length);
+    console.log('global.internalTimers.length', global.internalTimers.length);
     global.internalTimers.forEach(timer => {
       clearTimeout(timer);
+    })
+
+    console.log('global.internalChildProcess.length', global.internalChildProcess.length);
+    global.internalChildProcess.forEach(proc => {
+      console.log('proc.pid', proc.pid);
+      console.log('proc.connected', proc.connected);
     })
 
     setTimeout(() => {
 
       nodeLog();
+      treeKill(process);
     }, 100)
     cb();
 });
