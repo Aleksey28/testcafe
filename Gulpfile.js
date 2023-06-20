@@ -424,9 +424,9 @@ gulp.step('test-functional-local-safari-run', () => {
 
 gulp.step('test-functional-local-safari-after-run', () => {
     console.log('step after run');
-    setTimeout(() => {
-      process.disconnect();
-    }, 1000);
+    // setTimeout(() => {
+    //   process.disconnect();
+    // }, 1000);
     return Promise.resolve('resolve');
 });
 
