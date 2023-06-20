@@ -375,7 +375,7 @@ after(async function () {
         // HACK: the timeout prevents tests from failing when we can't close Browserstack browsers
         await Promise.race([
             closeRemoteBrowsers(),
-            new Promise(resolve => setTimeout(resolve, 57000)),
+            new Promise(resolve => global.internalTimers.push(setTimeout(resolve, 57000))),
         ]);
     }
     else

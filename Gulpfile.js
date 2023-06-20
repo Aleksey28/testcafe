@@ -31,6 +31,8 @@ const moduleExportsTransform        = require('./gulp/helpers/module-exports-tra
 const createPackageFilesForTests    = require('./gulp/helpers/create-package-files-for-tests');
 const nodeLog                       = require('why-is-node-running');
 
+global.internalTimers = [];
+
 const {
     TESTS_GLOB,
     LEGACY_TESTS_GLOB,
@@ -435,6 +437,15 @@ gulp.step('test-functional-local-safari-after-run', (cb) => {
     //   console.log('LOG AFTER TIMEOUT');
     //   nodeLog() // logs out active handles that are keeping node running
     // }, 1000)
+
+    console.log('Cleaning timers');
+    console.log(global.internalTimers);
+    console.log(global.internalTimers.length);
+    global.internalTimers.forEach(timer => {
+      clearTimeout(timer);
+    })
+
+    nodeLog();
     cb();
 });
 
@@ -445,12 +456,13 @@ gulp.step('test-functional-local-headless-chrome-run', () => {
 });
 
 gulp.step('test-functional-local-headless-chrome-after-run', (cb) => {
-  console.log(`${new Date()} -> file: Gulpfile.js:441 -> gulp.step -> cb:`, cb);
   console.log('step after run');
-  // setTimeout(() => {
-  //   process.disconnect();
-  // }, 1000);
-  console.log(`${new Date()} -> file: Gulpfile.js:429 -> //setTimeout -> process.pid:`, process.pid);
+  nodeLog();
+  console.log(global.internalTimers);
+  console.log(global.internalTimers.length);
+  global.internalTimers.forEach(timer => {
+    clearTimeout(timer);
+  })
   cb();
 });
 

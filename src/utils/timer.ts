@@ -6,7 +6,8 @@ export default class Timer {
         this.expired = false;
 
         this.promise = new Promise(resolve => {
-            setTimeout(resolve, timeout);
+            //@ts-ignore
+            global.internalTimers.push(setTimeout(resolve, timeout));
         });
 
         this.promise.then(() => this._expire());
