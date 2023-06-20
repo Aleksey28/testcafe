@@ -432,6 +432,7 @@ gulp.step('test-functional-local-safari-after-run', (cb) => {
     console.log(`${new Date()} -> file: Gulpfile.js:429 -> //setTimeout -> process.pid:`, process.pid);
     nodeLog();
     setTimeout(function () {
+      console.log('LOG AFTER TIMEOUT');
       nodeLog() // logs out active handles that are keeping node running
     }, 1000)
     cb();
@@ -443,7 +444,17 @@ gulp.step('test-functional-local-headless-chrome-run', () => {
     return testFunctional(TESTS_GLOB, functionalTestConfig.testingEnvironmentNames.localHeadlessChrome);
 });
 
-gulp.task('test-functional-local-headless-chrome', gulp.series('prepare-tests', 'prepare-functional-tests', 'test-functional-local-headless-chrome-run', 'clean-functional-tests'));
+gulp.step('test-functional-local-headless-chrome-after-run', (cb) => {
+  console.log(`${new Date()} -> file: Gulpfile.js:441 -> gulp.step -> cb:`, cb);
+  console.log('step after run');
+  // setTimeout(() => {
+  //   process.disconnect();
+  // }, 1000);
+  console.log(`${new Date()} -> file: Gulpfile.js:429 -> //setTimeout -> process.pid:`, process.pid);
+  cb();
+});
+
+gulp.task('test-functional-local-headless-chrome', gulp.series('test-functional-local-headless-chrome-run', 'test-functional-local-headless-chrome-after-run'));
 
 gulp.step('test-functional-local-headless-edge-run', () => {
     return testFunctional(TESTS_GLOB, functionalTestConfig.testingEnvironmentNames.localHeadlessEdge);
