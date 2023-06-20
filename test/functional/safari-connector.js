@@ -24,6 +24,7 @@ module.exports = class SafariConnector {
             console.log(`stdout: ${data}`);
         });
         lsProcess.on('exit', code => {
+            DEBUG(code);
             console.log(`Process ended with ${code}`);
         });
 
