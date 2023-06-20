@@ -432,14 +432,14 @@ gulp.step('test-functional-local-safari-after-run', (cb) => {
     //   process.disconnect();
     // }, 1000);
     console.log(`${new Date()} -> file: Gulpfile.js:429 -> //setTimeout -> process.pid:`, process.pid);
-    nodeLog();
+    // nodeLog();
     // setTimeout(function () {
     //   console.log('LOG AFTER TIMEOUT');
     //   nodeLog() // logs out active handles that are keeping node running
     // }, 1000)
 
     console.log('Cleaning timers');
-    console.log(global.internalTimers);
+    // console.log(global.internalTimers);
     console.log(global.internalTimers.length);
     global.internalTimers.forEach(timer => {
       clearTimeout(timer);
