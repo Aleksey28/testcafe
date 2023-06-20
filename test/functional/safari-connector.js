@@ -15,14 +15,20 @@ module.exports = class SafariConnector {
     }
 
     startBrowser (settings, url) {
-        exec(`open -a /Applications/Safari.app ${url}`, (...args) => DEBUG(args));
+        exec(`open -a /Applications/Safari.app ${url}`, (...args) => {
+          console.log(`${new Date()} -> file: safari-connector.js:20 -> SafariConnector -> exec -> args:`, args);
+          DEBUG(args)
+        });
 
         return Promise.resolve();
     }
 
     stopBrowser () {
         console.log(`${new Date()} -> file: safari-connector.js:35 -> SafariConnector -> stopBrowser -> stopBrowser:`);
-        exec(`osascript -e "tell application \"Safari\" to quit"`, (...args) => DEBUG(args));
+        exec(`osascript -e "tell application \"Safari\" to quit"`, (...args) => {
+          console.log(`${new Date()} -> file: safari-connector.js:30 -> SafariConnector -> exec -> args:`, args);
+          DEBUG(args)
+        });
 
         return Promise.resolve();
     }
