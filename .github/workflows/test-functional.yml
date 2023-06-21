@@ -136,21 +136,21 @@ jobs:
           local-identifier: random
 
       - run: |
-          ls /Users/runner/
-          ls /Users/runner/runners
-          ls /Users/runner/project
-          ls /Users/runner/target
-          ls /Users/runner/work
+          ls -a /Users/runner/
+          ls -a /Users/runner/runners
+          ls -a /Users/runner/project
+          ls -a /Users/runner/target
+          ls -a /Users/runner/work
 
       - run: ${{ inputs.test-script }}
         timeout-minutes: ${{ inputs.timeout }}
 
       - run: |
-          ls /Users/runner/
-          ls /Users/runner/runners
-          ls /Users/runner/project
-          ls /Users/runner/target
-          ls /Users/runner/work
+          ls -a /Users/runner/
+          ls -a /Users/runner/runners
+          ls -a /Users/runner/project
+          ls -a /Users/runner/target
+          ls -a /Users/runner/work
 
       - name: 'Stop BrowserStackLocal'
         if: ${{ inputs.is-browserstack }}
