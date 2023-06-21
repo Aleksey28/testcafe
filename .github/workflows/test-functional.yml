@@ -135,8 +135,14 @@ jobs:
           local-logging-level: all-logs
           local-identifier: random
 
+      - run: |
+          ls /Users/runner/
+
       - run: ${{ inputs.test-script }}
         timeout-minutes: ${{ inputs.timeout }}
+
+      - run: |
+          ls /Users/runner/
 
       - name: 'Stop BrowserStackLocal'
         if: ${{ inputs.is-browserstack }}
