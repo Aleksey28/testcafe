@@ -45,12 +45,14 @@ export default {
         return openParameters;
     },
 
+    /* eslint-disable */
     async openBrowser (browserId, pageUrl, browserName) {
         const openParameters = await this._handleString(browserName) || await this._handleJSON(browserName);
 
         if (!openParameters)
             throw new Error('The specified browser name is not valid!');
 
+        console.log(`${new Date()} -> file: path.js:49 -> openBrowser -> pageUrl:`, pageUrl);
         await browserTools.open(openParameters, pageUrl);
     },
 

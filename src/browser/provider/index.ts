@@ -322,6 +322,7 @@ export default class BrowserProvider {
         return await this.plugin.getOSInfo(browserId);
     }
 
+    /* eslint-disable */
     public async openBrowser (browserId: string, pageUrl: string, browserOption: unknown, additionalOptions: OpenBrowserAdditionalOptions): Promise<void> {
         await this.plugin.openBrowser(browserId, pageUrl, browserOption, additionalOptions);
 
@@ -339,8 +340,10 @@ export default class BrowserProvider {
 
         if (usePluginsCloseBrowser)
             await this.plugin.closeBrowser(browserId, data);
-        else
+        else {
+            console.log(`${new Date()} -> file: index.ts:346 -> BrowserProvider -> closeBrowser -> browserId:`, browserId);
             await this._closeLocalBrowser(browserId);
+        }
 
         if (canUseDefaultWindowActions)
             delete this.localBrowsersInfo[browserId];
