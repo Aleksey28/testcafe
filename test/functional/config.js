@@ -4,7 +4,6 @@ const browserProviderNames = {
     sauceLabs:    'sauceLabs',
     browserstack: 'browserstack',
     remote:       'remote',
-    safari:       'safari',
 };
 
 const testingEnvironmentNames = {
@@ -110,7 +109,6 @@ testingEnvironments[testingEnvironmentNames.localSafari] = {
         {
             browserName: 'safari',
             userAgent:   'safari',
-            alias:       'safari',
         },
     ],
 };
