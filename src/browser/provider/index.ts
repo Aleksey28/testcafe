@@ -341,6 +341,7 @@ export default class BrowserProvider {
         if (usePluginsCloseBrowser)
             await this.plugin.closeBrowser(browserId, data);
         else {
+            console.trace();
             console.log(`${new Date()} -> file: index.ts:346 -> BrowserProvider -> closeBrowser -> browserId:`, browserId);
             await this._closeLocalBrowser(browserId);
         }
