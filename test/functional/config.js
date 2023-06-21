@@ -109,6 +109,7 @@ testingEnvironments[testingEnvironmentNames.localSafari] = {
         {
             browserName: 'safari',
             userAgent:   'safari',
+            alias:       'safari',
         },
     ],
 };
