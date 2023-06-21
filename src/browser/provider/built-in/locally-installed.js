@@ -8,7 +8,9 @@ export default {
         const args  = browserName.split(' ');
         const alias = args.shift();
 
+        console.log(`${new Date()} -> file: locally-installed.js:12 -> openBrowser -> alias:`, alias);
         const browserInfo    = await browserTools.getBrowserInfo(alias);
+        console.log(`${new Date()} -> file: locally-installed.js:13 -> openBrowser -> browserInfo:`, browserInfo);
         const openParameters = Object.assign({}, browserInfo);
 
         if (args.length)
