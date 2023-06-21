@@ -11,6 +11,10 @@ on:
         description: 'The merge commit SHA'
       base_sha:
         description: 'The base commit SHA'
+      debug:
+        required: false
+        type: string
+        default: ''
 
 jobs:
   build:
@@ -111,7 +115,8 @@ jobs:
               return {
                 ...merged_sha ? { merged_sha } : {},
                 sha,
-                deploy_run_id: '${{github.run_id}}'
+                deploy_run_id: '${{github.run_id}}',
+                debug
               }
             }
 
