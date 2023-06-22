@@ -14,6 +14,8 @@ const SafariConnector            = require('./safari-connector');
 const getTestError               = require('./get-test-error.js');
 const { createSimpleTestStream } = require('./utils/stream');
 const BrowserConnectionStatus    = require('../../lib/browser/connection/status');
+const OS                         = require('os-family');
+const { findWindow }             = require('testcafe-browser-tools');
 
 const setNativeAutomationForRemoteConnection = require('./utils/set-native-automation-for-remote-connection');
 
@@ -52,6 +54,10 @@ const USE_PROVIDER_POOL = config.useLocalBrowsers || isBrowserStack;
 function getBrowserInfo (settings) {
     return Promise
         .resolve()
+        .then(() => {
+          if (OS.mac)
+            return findWindow('');
+        })
         .then(() => {
             if (!USE_PROVIDER_POOL)
                 return testCafe.createBrowserConnection();
