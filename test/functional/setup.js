@@ -14,8 +14,8 @@ const SafariConnector            = require('./safari-connector');
 const getTestError               = require('./get-test-error.js');
 const { createSimpleTestStream } = require('./utils/stream');
 const BrowserConnectionStatus    = require('../../lib/browser/connection/status');
-const OS                         = require('os-family');
-const { findWindow }             = require('testcafe-browser-tools');
+// const OS                         = require('os-family');
+// const { findWindow }             = require('testcafe-browser-tools');
 
 const setNativeAutomationForRemoteConnection = require('./utils/set-native-automation-for-remote-connection');
 
@@ -55,12 +55,12 @@ function getBrowserInfo (settings) {
     return Promise
         .resolve()
         .then(() => {
-          try {
-            if (OS.mac)
-              return findWindow('');
-          } catch (e) {
-            console.log(`${new Date()} -> file: setup.js:62 -> .then -> e:`, e);
-          }
+          // try {
+          //   if (OS.mac)
+          //     return findWindow('');
+          // } catch (e) {
+          //   console.log(`${new Date()} -> file: setup.js:62 -> .then -> e:`, e);
+          // }
         })
         .then(() => {
             console.log(`${new Date()} -> file: setup.js:81 -> .then -> settings.browserName:`, settings.browserName);
