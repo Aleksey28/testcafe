@@ -160,6 +160,7 @@ jobs:
           ls -a /Users/runner/project
           ls -a /Users/runner/target
           ls -a /Users/runner/work
+        if: ${{ always() }}
 
       - name: 'Stop BrowserStackLocal'
         if: ${{ inputs.is-browserstack }}
