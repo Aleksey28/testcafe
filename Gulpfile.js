@@ -416,6 +416,12 @@ gulp.step('test-functional-local-chrome-firefox-run', () => {
 
 gulp.task('test-functional-local-chrome-firefox', gulp.series('prepare-tests', 'test-functional-local-chrome-firefox-run'));
 
+gulp.step('test-functional-local-safari-run', () => {
+    return testFunctional(TESTS_GLOB, functionalTestConfig.testingEnvironmentNames.localSafari);
+});
+
+gulp.task('test-functional-local-safari', gulp.series('prepare-tests', 'test-functional-local-safari-run'));
+
 gulp.step('test-functional-local-headless-chrome-run', () => {
     return testFunctional(TESTS_GLOB, functionalTestConfig.testingEnvironmentNames.localHeadlessChrome);
 });
