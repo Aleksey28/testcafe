@@ -59,15 +59,14 @@ function getBrowserInfo (settings) {
           console.log(`${new Date()} -> file: setup.js:65 -> .then -> OS.mac:`, OS.mac);
           try {
             if (OS.mac)
-              return Promise.race(findWindow(''), new Promise(resolve => setTimeout(resolve, 1000)));
+              return findWindow('');
           } catch (e) {
             console.log(`${new Date()} -> file: setup.js:62 -> .then -> e:`, e);
           }
 
           return Promise.resolve();
         })
-        .then((...rest) => {
-            console.log(`${new Date()} -> file: setup.js:92 -> .then -> rest:`, rest);
+        .then(() => {
             console.log(`${new Date()} -> file: setup.js:81 -> .then -> settings.browserName:`, settings.browserName);
             if (!USE_PROVIDER_POOL)
                 return testCafe.createBrowserConnection();
