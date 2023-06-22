@@ -58,9 +58,12 @@ function getBrowserInfo (settings) {
           try {
             if (OS.mac)
               return findWindow('');
-          } catch (_) {}
+          } catch (e) {
+            console.log(`${new Date()} -> file: setup.js:62 -> .then -> e:`, e);
+          }
         })
         .then(() => {
+            console.log(`${new Date()} -> file: setup.js:81 -> .then -> settings.browserName:`, settings.browserName);
             if (!USE_PROVIDER_POOL)
                 return testCafe.createBrowserConnection();
 
