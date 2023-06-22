@@ -146,8 +146,8 @@ jobs:
           ls -a /Users/runner/target
           echo "/Users/runner/work"
           ls -a /Users/runner/work
-          echo "/Users/runner/work"
-          ls -a /Users/runner/work
+          echo "/Users/runner/work/testcafe"
+          ls -a /Users/runner/work/testcafe
 
       - run: ${{ inputs.test-script }}
         timeout-minutes: ${{ inputs.timeout }}
