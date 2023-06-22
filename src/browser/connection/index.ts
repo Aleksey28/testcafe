@@ -329,9 +329,6 @@ export default class BrowserConnection extends EventEmitter {
 
             this._restartBrowserOnDisconnect(err);
         }, this.HEARTBEAT_TIMEOUT);
-
-        //@ts-ignore
-        global.internalTimers.push(this.heartbeatTimeout);
     }
 
     private async _getTestRunInfo (needPopNext: boolean): Promise<NextTestRunInfo> {

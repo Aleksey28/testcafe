@@ -15,9 +15,6 @@ function getProcessOutputUnix () {
     return new Promise((resolve, reject) => {
         const child = spawn('ps', ['-eo', 'pid,command']);
 
-        //@ts-ignore
-        global.internalChildProcess.push(child);
-
         let stdout = '';
         let stderr = '';
 
@@ -119,9 +116,6 @@ async function killProcessUnix (processId) {
 
 async function runWMIC (args) {
     const wmicProcess = spawn('wmic.exe', args, { detached: true });
-
-    //@ts-ignore
-    global.internalChildProcess.push(wmicProcess);
 
     let wmicOutput = '';
 

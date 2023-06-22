@@ -56,9 +56,6 @@ export default class TestedApp {
 
         this._process = spawnCommand(command, { shell: true, env });
 
-        //@ts-ignore
-        global.internalChildProcess.push(this._process);
-
         if (this._process.stdout)
             this._process.stdout.on('data', data => this._stdoutLogger(String(data)));
 

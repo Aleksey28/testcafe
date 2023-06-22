@@ -141,9 +141,6 @@ export default class VideoRecorder extends AsyncEmitter {
     async init () {
         this.ffmpegProcess = spawn(this.ffmpegPath, this.optionsList, { stdio: 'pipe' });
 
-        //@ts-ignore
-        global.internalChildProcess.push(this.ffmpegProcess);
-
         this._setupFFMPEGBuffers();
 
         this.ffmpegClosingPromise = this

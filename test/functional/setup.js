@@ -52,6 +52,7 @@ const REMOTE_CONNECTORS_MAP = {
 const USE_PROVIDER_POOL = config.useLocalBrowsers || isBrowserStack;
 
 function getBrowserInfo (settings) {
+    console.log(`${new Date()} -> file: setup.js:55 -> getBrowserInfo -> settings:`, settings);
     return Promise
         .resolve()
         .then(() => {

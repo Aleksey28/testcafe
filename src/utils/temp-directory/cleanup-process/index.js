@@ -121,9 +121,6 @@ class CleanupProcess {
 
                 this.worker = spawn(process.argv0, [WORKER_PATH], { detached: true, stdio: WORKER_STDIO_CONFIG });
 
-                //@ts-ignore
-                global.internalChildProcess.push(this.worker);
-
                 this._setupWorkerEventHandlers();
                 this._unrefWorkerProcess();
 

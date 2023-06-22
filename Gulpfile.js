@@ -29,10 +29,6 @@ const promisifyStream               = require('./gulp/helpers/promisify-stream')
 const testFunctional                = require('./gulp/helpers/test-functional');
 const moduleExportsTransform        = require('./gulp/helpers/module-exports-transform');
 const createPackageFilesForTests    = require('./gulp/helpers/create-package-files-for-tests');
-const nodeLog                       = require('why-is-node-running');
-
-global.internalTimers       = [];
-global.internalChildProcess = [];
 
 const {
     TESTS_GLOB,
@@ -420,79 +416,11 @@ gulp.step('test-functional-local-chrome-firefox-run', () => {
 
 gulp.task('test-functional-local-chrome-firefox', gulp.series('prepare-tests', 'test-functional-local-chrome-firefox-run'));
 
-/* eslint-disable */
-
-gulp.step('test-functional-local-safari-run', () => {
-    return testFunctional(TESTS_GLOB, functionalTestConfig.testingEnvironmentNames.localSafari);
-});
-
-gulp.step('test-functional-local-safari-after-run', (cb) => {
-    console.log(`${new Date()} -> file: Gulpfile.js:426 -> gulp.step -> cb:`, cb);
-    console.log('step after run');
-    // setTimeout(() => {
-    //   process.disconnect();
-    // }, 1000);
-    console.log(`${new Date()} -> file: Gulpfile.js:429 -> //setTimeout -> process.pid:`, process.pid);
-    // nodeLog();
-    // setTimeout(function () {
-    //   console.log('LOG AFTER TIMEOUT');
-    //   nodeLog() // logs out active handles that are keeping node running
-    // }, 1000)
-
-    console.log('Cleaning timers');
-    // console.log(global.internalTimers);
-    console.log('global.internalTimers.length', global.internalTimers.length);
-    global.internalTimers.forEach(timer => {
-      clearTimeout(timer);
-    })
-
-    console.log('global.internalChildProcess.length', global.internalChildProcess.length);
-    global.internalChildProcess.forEach(proc => {
-      console.log('proc.pid', proc.pid);
-      console.log('proc.connected', proc.connected);
-    })
-
-    setTimeout(() => {
-
-      nodeLog();
-    }, 100)
-    cb();
-});
-
-gulp.task('test-functional-local-safari', gulp.series('test-functional-local-safari-run', 'test-functional-local-safari-after-run'));
-
 gulp.step('test-functional-local-headless-chrome-run', () => {
     return testFunctional(TESTS_GLOB, functionalTestConfig.testingEnvironmentNames.localHeadlessChrome);
 });
 
-gulp.step('test-functional-local-headless-chrome-after-run', (cb) => {
-  console.log(`${new Date()} -> file: Gulpfile.js:426 -> gulp.step -> cb:`, cb);
-  console.log('step after run');
-  // setTimeout(() => {
-  //   process.disconnect();
-  // }, 1000);
-  console.log(`${new Date()} -> file: Gulpfile.js:429 -> //setTimeout -> process.pid:`, process.pid);
-  // nodeLog();
-  // setTimeout(function () {
-  //   console.log('LOG AFTER TIMEOUT');
-  //   nodeLog() // logs out active handles that are keeping node running
-  // }, 1000)
-
-  console.log('Cleaning timers');
-  // console.log(global.internalTimers);
-  console.log(global.internalTimers.length);
-  global.internalTimers.forEach(timer => {
-    clearTimeout(timer);
-  })
-
-  setTimeout(() => {
-
-    nodeLog();
-  }, 100)
-  cb();
-});
-
-gulp.task('test-functional-local-headless-chrome', gulp.series('test-functional-local-headless-chrome-run', 'test-functional-local-headless-chrome-after-run'));
+gulp.task('test-functional-local-headless-chrome', gulp.series('prepare-tests', 'prepare-functional-tests', 'test-functional-local-headless-chrome-run', 'clean-functional-tests'));
 
 gulp.step('test-functional-local-headless-edge-run', () => {
     return testFunctional(TESTS_GLOB, functionalTestConfig.testingEnvironmentNames.localHeadlessEdge);
