@@ -136,10 +136,17 @@ jobs:
           local-identifier: random
 
       - run: |
+          echo "/Users/runner/"
           ls -a /Users/runner/
+          echo "/Users/runner/runners"
           ls -a /Users/runner/runners
+          echo "/Users/runner/project"
           ls -a /Users/runner/project
+          echo "/Users/runner/target"
           ls -a /Users/runner/target
+          echo "/Users/runner/work"
+          ls -a /Users/runner/work
+          echo "/Users/runner/work"
           ls -a /Users/runner/work
 
       - run: ${{ inputs.test-script }}
