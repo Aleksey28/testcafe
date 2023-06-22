@@ -148,7 +148,7 @@ jobs:
           ls -a /Users/runner/work
           echo "/Users/runner/work/testcafe"
           ls -a /Users/runner/work/testcafe
-          echo "find *testcafe-browser-tools*"
+          echo "find testcafe-browser-tools"
           find /Users/runner/ -name "*testcafe-browser-tools*"
 
       - run: ${{ inputs.test-script }}
