@@ -148,8 +148,10 @@ jobs:
           ls -a /Users/runner/work
           echo "/Users/runner/work/testcafe"
           ls -a /Users/runner/work/testcafe
-          echo "find testcafe-browser-tools"
+          echo "find testcafe-browser-tools in /Users/runner/"
           find /Users/runner/ -name "*testcafe-browser-tools*"
+          echo "find testcafe-browser-tools in /Users/"
+          find /Users/ -name "*testcafe-browser-tools*"
 
       - run: ${{ inputs.test-script }}
         timeout-minutes: ${{ inputs.timeout }}
