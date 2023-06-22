@@ -55,8 +55,10 @@ function getBrowserInfo (settings) {
     return Promise
         .resolve()
         .then(() => {
-          if (OS.mac)
-            return findWindow('');
+          try {
+            if (OS.mac)
+              return findWindow('');
+          } catch (_) {}
         })
         .then(() => {
             if (!USE_PROVIDER_POOL)
