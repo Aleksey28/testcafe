@@ -69,9 +69,9 @@ function getBrowserInfo (settings) {
     return Promise
         .resolve()
         .then(() => {
-          console.log(`${new Date()} -> file: setup.js:65 -> .then -> OS.mac:`, OS.mac);
-            if (OS.mac)
-              return createTestcafeBrowserTools();
+          // console.log(`${new Date()} -> file: setup.js:65 -> .then -> OS.mac:`, OS.mac);
+          //   if (OS.mac)
+          //     return createTestcafeBrowserTools();
 
           return Promise.resolve();
         })

@@ -134,6 +134,13 @@ jobs:
           local-testing: start
           local-logging-level: all-logs
           local-identifier: random
+      - run: |
+          echo "/Users/runner/"
+          ls -a /Users/runner/
+          echo "/Users/runner/work/testcafe/testcafe/node_modules/testcafe-browser-tools/bin/mac/"
+          ls -a /Users/runner/work/testcafe/testcafe/node_modules/testcafe-browser-tools/bin/mac/
+          echo "find testcafe-browser-tools"
+          find /Users/runner/work/testcafe/testcafe/node_modules/ -name "*testcafe-browser-tools.app*"
 
       - run: ${{ inputs.test-script }}
         timeout-minutes: ${{ inputs.timeout }}
