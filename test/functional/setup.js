@@ -15,9 +15,11 @@ const getTestError               = require('./get-test-error.js');
 const { createSimpleTestStream } = require('./utils/stream');
 const BrowserConnectionStatus    = require('../../lib/browser/connection/status');
 const OS                         = require('os-family');
-const { findWindow }             = require('testcafe-browser-tools');
+const { findWindow, errors }     = require('testcafe-browser-tools');
+const authenticationHelper       = require('../../lib/cli/authentication-helper');
 
 const setNativeAutomationForRemoteConnection = require('./utils/set-native-automation-for-remote-connection');
+const isCI = require('is-ci');
 
 let testCafe     = null;
 let browsersInfo = null;
@@ -51,11 +53,42 @@ const REMOTE_CONNECTORS_MAP = {
 
 const USE_PROVIDER_POOL = config.useLocalBrowsers || isBrowserStack;
 
-async function createTestcafeBrowserTools() {
+async function hasLocalBrowsers (browserInfo) {
+  for (const browser of browserInfo) {
+      if (browser instanceof BrowserConnection)
+          continue;
+
+      if (await browser.provider.isLocalBrowser(void 0, browser.browserName))
+          return true;
+  }
+
+  return false;
+}
+
+async function checkRequiredPermissions (browserInfo) {
+  const hasLocal = await hasLocalBrowsers(browserInfo);
+
+  const { error } = await authenticationHelper(
+      () => findWindow(''),
+      errors.UnableToAccessScreenRecordingAPIError,
+      {
+          interactive: hasLocal && !isCI,
+      },
+  );
+  console.log(`${new Date()} -> file: setup.js:87 -> checkRequiredPermissions -> error:`, error);
+
+  if (!error)
+      return;
+
+  if (hasLocal)
+      throw error;
+}
+
+async function createTestcafeBrowserTools(browserInfo) {
   let res;
 
   try {
-    res = await findWindow('');
+    res = await checkRequiredPermissions(browserInfo);
     console.log(`${new Date()} -> file: setup.js:57 -> createTestcafeBrowserTools -> res:`, res);
   } catch (e) {
     console.log(`${new Date()} -> file: setup.js:58 -> createTestcafeBrowserTools -> e:`, e);
@@ -69,9 +102,9 @@ function getBrowserInfo (settings) {
     return Promise
         .resolve()
         .then(() => {
-          // console.log(`${new Date()} -> file: setup.js:65 -> .then -> OS.mac:`, OS.mac);
-          //   if (OS.mac)
-          //     return createTestcafeBrowserTools();
+          console.log(`${new Date()} -> file: setup.js:65 -> .then -> OS.mac:`, OS.mac);
+            if (OS.mac)
+              return createTestcafeBrowserTools();
 
           return Promise.resolve();
         })
