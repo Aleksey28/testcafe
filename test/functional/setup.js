@@ -141,11 +141,11 @@ function openRemoteBrowsers () {
 }
 
 function waitUtilBrowserConnectionOpened (connection) {
-    console.log(`${new Date()} -> file: setup.js:144 -> waitUtilBrowserConnectionOpened -> connection:`, connection);
+    console.log(`${new Date()} -> file: setup.js:144 -> waitUtilBrowserConnectionOpened -> connection.status:`, connection.status);
     if (connection.status === BrowserConnectionStatus.uninitialized)
         connection.initialize();
 
-      console.log(`${new Date()} -> file: setup.js:149 -> waitUtilBrowserConnectionOpened -> connection:`, connection);
+      console.log(`${new Date()} -> file: setup.js:149 -> waitUtilBrowserConnectionOpened -> connection.status:`, connection.status);
     const connectedPromise = connection.status === BrowserConnectionStatus.opened
         ? Promise.resolve()
         : promisifyEvent(connection, 'opened');

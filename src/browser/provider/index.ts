@@ -270,6 +270,7 @@ export default class BrowserProvider {
     public async init (): Promise<void> {
         const initialized = await this.initPromise;
 
+        console.log(`${new Date()} -> file: index.ts:289 -> BrowserProvider -> init -> !!initialized:`, !!initialized);
         if (initialized)
             return;
 
@@ -289,6 +290,8 @@ export default class BrowserProvider {
 
     public async dispose (): Promise<void> {
         const initialized = await this.initPromise;
+
+        console.log(`${new Date()} -> file: index.ts:292 -> BrowserProvider -> dispose -> !!initialized:`, !!initialized);
 
         if (!initialized)
             return;
