@@ -53,7 +53,7 @@ export default {
             throw new Error('The specified browser name is not valid!');
 
         console.log(`${new Date()} -> file: path.js:49 -> openBrowser -> pageUrl:`, pageUrl);
-        console.trace();
+        // console.trace();
         await browserTools.open(openParameters, pageUrl);
     },
 

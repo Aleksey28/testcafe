@@ -503,6 +503,7 @@ export default class BrowserConnection extends EventEmitter {
 
     public async close (): Promise<void> {
         console.log(`${new Date()} -> file: index.ts:506 -> BrowserConnection -> close -> this.status:`, this.status);
+        console.trace();
         if (this.status === BrowserConnectionStatus.closing || this.status === BrowserConnectionStatus.closed)
             return;
 
