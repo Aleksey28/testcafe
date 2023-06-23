@@ -35,6 +35,7 @@ export default class BrowserProviderPluginHost {
     waitForConnectionReady (browserId) {
         const connection = BrowserConnection.getById(browserId);
 
+        console.log(`${new Date()} -> file: plugin-host.js:39 -> BrowserProviderPluginHost -> waitForConnectionReady -> connection.isReady():`, connection.isReady());
         if (connection.isReady())
             return Promise.resolve();
 

@@ -326,6 +326,8 @@ export default class BrowserConnection extends EventEmitter {
     private _waitForHeartbeat (): void {
         this.heartbeatTimeout = setTimeout(() => {
             const err = this._createBrowserDisconnectedError();
+            
+            console.log(`${new Date()} -> file: index.ts:329 -> BrowserConnection -> this.heartbeatTimeout=setTimeout -> err:`, err);
 
             this.status         = BrowserConnectionStatus.disconnected;
             this.testRunAborted = true;
@@ -528,6 +530,7 @@ export default class BrowserConnection extends EventEmitter {
         const osInfo = await this.provider.getOSInfo(this.id);
 
         this.status                      = BrowserConnectionStatus.ready;
+        console.log(`${new Date()} -> file: index.ts:531 -> BrowserConnection -> establish -> status:`, status);
         this.browserInfo.parsedUserAgent = parseUserAgent(userAgent, osInfo);
 
         this._waitForHeartbeat();
@@ -585,6 +588,7 @@ export default class BrowserConnection extends EventEmitter {
             this.emit('idle');
         }
 
+        console.log(`${new Date()} -> file: index.ts:592 -> BrowserConnection -> getStatus -> this.status:`, this.status);
         if (this.status === BrowserConnectionStatus.opened) {
             const nextTestRunInfo = await this._getTestRunInfo(isTestDone || this.testRunAborted);
 
