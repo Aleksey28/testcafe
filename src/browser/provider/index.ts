@@ -175,10 +175,13 @@ export default class BrowserProvider {
             return;
 
         await this._ensureLocalBrowserInfo(browserId);
+        console.log(`${new Date()} -> file: index.ts:204 -> BrowserProvider -> _ensureBrowserWindowDescriptor -> browserId:`, browserId);
 
         // NOTE: delay to ensure the window finished the opening
         await this.plugin.waitForConnectionReady(browserId);
+        console.log(`${new Date()} -> file: index.ts:182 -> BrowserProvider -> _ensureBrowserWindowDescriptor -> browserId:`, browserId);
         await delay(BROWSER_OPENING_DELAY);
+        console.log(`${new Date()} -> file: index.ts:206 -> BrowserProvider -> _ensureBrowserWindowDescriptor -> BROWSER_OPENING_DELAY:`, BROWSER_OPENING_DELAY);
 
         if (this.localBrowsersInfo[browserId]) {
             const connection     = BrowserConnection.getById(browserId) as BrowserConnection;
@@ -186,8 +189,10 @@ export default class BrowserProvider {
 
             try {
                 windowDescriptor = await this._findWindow(browserId);
+                console.log(`${new Date()} -> file: index.ts:192 -> BrowserProvider -> _ensureBrowserWindowDescriptor -> browserId:`, browserId);
             }
             catch (err: any) {
+                console.log(`${new Date()} -> file: index.ts:195 -> BrowserProvider -> _ensureBrowserWindowDescriptor -> err:`, err);
                 // NOTE: We can suppress the error here since we can just disable window manipulation functions
                 // when we cannot find a local window descriptor
                 DEBUG_LOGGER(err);
