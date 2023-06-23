@@ -52,14 +52,16 @@ const REMOTE_CONNECTORS_MAP = {
 const USE_PROVIDER_POOL = config.useLocalBrowsers || isBrowserStack;
 
 async function createTestcafeBrowserTools() {
+  let res;
+
   try {
-    const res = await findWindow('');
+    res = await findWindow('');
     console.log(`${new Date()} -> file: setup.js:57 -> createTestcafeBrowserTools -> res:`, res);
   } catch (e) {
     console.log(`${new Date()} -> file: setup.js:58 -> createTestcafeBrowserTools -> e:`, e);
   }
 
-  return Promise.resolve();
+  return Promise.resolve(res);
 }
 
 function getBrowserInfo (settings) {
@@ -139,9 +141,11 @@ function openRemoteBrowsers () {
 }
 
 function waitUtilBrowserConnectionOpened (connection) {
+    console.log(`${new Date()} -> file: setup.js:144 -> waitUtilBrowserConnectionOpened -> connection:`, connection);
     if (connection.status === BrowserConnectionStatus.uninitialized)
         connection.initialize();
 
+      console.log(`${new Date()} -> file: setup.js:149 -> waitUtilBrowserConnectionOpened -> connection:`, connection);
     const connectedPromise = connection.status === BrowserConnectionStatus.opened
         ? Promise.resolve()
         : promisifyEvent(connection, 'opened');
