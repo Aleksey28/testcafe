@@ -112,6 +112,7 @@ export default class BrowserProvider {
     }
 
     private _getMaxScreenSize (browserId: string): Size | null {
+        console.log(`${new Date()} -> file: index.ts:115 -> BrowserProvider -> _getMaxScreenSize -> browserId:`, browserId);
         return this.localBrowsersInfo[browserId] && this.localBrowsersInfo[browserId].maxScreenSize;
     }
 
@@ -155,6 +156,7 @@ export default class BrowserProvider {
     }
 
     private async _calculateMacSizeLimits (browserId: string): Promise<void> {
+        console.log(`${new Date()} -> file: index.ts:159 -> BrowserProvider -> _calculateMacSizeLimits -> browserId:`, browserId);
         if (!this._isBrowserIdle(browserId))
             return;
 
@@ -201,7 +203,9 @@ export default class BrowserProvider {
     }
 
     private async _ensureBrowserWindowParameters (browserId: string): Promise<void> {
+        console.log(`${new Date()} -> file: index.ts:204 -> BrowserProvider -> _ensureBrowserWindowParameters -> browserId:`, browserId);
         await this._ensureBrowserWindowDescriptor(browserId);
+        console.log(`${new Date()} -> file: index.ts:212 -> BrowserProvider -> _ensureBrowserWindowParameters -> after ensure descriptor:`, browserId);
 
         if (OS.win && !this._getResizeCorrections(browserId))
             await this._calculateResizeCorrections(browserId);
@@ -262,8 +266,11 @@ export default class BrowserProvider {
     }
 
     public async canUseDefaultWindowActions (browserId: string): Promise<boolean> {
+        console.log(`${new Date()} -> file: index.ts:265 -> BrowserProvider -> canUseDefaultWindowActions -> browserId:`, browserId);
         const isLocalBrowser    = await this.plugin.isLocalBrowser(browserId);
+        console.log(`${new Date()} -> file: index.ts:268 -> BrowserProvider -> canUseDefaultWindowActions -> isLocalBrowser:`, isLocalBrowser);
         const isHeadlessBrowser = await this.plugin.isHeadlessBrowser(browserId);
+        console.log(`${new Date()} -> file: index.ts:270 -> BrowserProvider -> canUseDefaultWindowActions -> isHeadlessBrowser:`, isHeadlessBrowser);
 
         return isLocalBrowser && !isHeadlessBrowser;
     }
@@ -332,7 +339,9 @@ export default class BrowserProvider {
         await this.plugin.openBrowser(browserId, pageUrl, browserOption, additionalOptions);
         console.log(`${new Date()} -> file: index.ts:327 -> BrowserProvider -> openBrowser -> browserId -> after open:`, browserId);
 
+        console.log(`${new Date()} -> file: index.ts:340 -> BrowserProvider -> openBrowser -> browserId -> before ensure:`, browserId);
         await this._ensureRetryTestPagesWarning(browserId);
+        console.log(`${new Date()} -> file: index.ts:340 -> BrowserProvider -> openBrowser -> browserId -> after ensure:`, browserId);
 
         if (await this.canUseDefaultWindowActions(browserId))
             await this._ensureBrowserWindowParameters(browserId);

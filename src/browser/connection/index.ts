@@ -278,6 +278,7 @@ export default class BrowserConnection extends EventEmitter {
         try {
             const additionalOptions = this._getAdditionalBrowserOptions();
 
+            //Hanging here
             await this.provider.openBrowser(this.id, this.url, this.browserInfo.browserOption, additionalOptions);
 
             console.log(`${new Date()} -> file: index.ts:283 -> BrowserConnection -> _runBrowser -> this.status:`, this.status);
@@ -640,6 +641,7 @@ export default class BrowserConnection extends EventEmitter {
     }
 
     public initialize (): void {
+        console.log(`${new Date()} -> file: index.ts:643 -> BrowserConnection -> initialize -> initialize:`);
         this._buildCommunicationUrls(this.browserConnectionGateway.proxy);
 
         process.nextTick(() => this._runBrowser());
