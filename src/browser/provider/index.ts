@@ -324,7 +324,9 @@ export default class BrowserProvider {
 
     /* eslint-disable */
     public async openBrowser (browserId: string, pageUrl: string, browserOption: unknown, additionalOptions: OpenBrowserAdditionalOptions): Promise<void> {
+        console.log(`${new Date()} -> file: index.ts:327 -> BrowserProvider -> openBrowser -> browserId -> before open:`, browserId);
         await this.plugin.openBrowser(browserId, pageUrl, browserOption, additionalOptions);
+        console.log(`${new Date()} -> file: index.ts:327 -> BrowserProvider -> openBrowser -> browserId -> after open:`, browserId);
 
         await this._ensureRetryTestPagesWarning(browserId);
 

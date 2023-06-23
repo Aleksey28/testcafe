@@ -1,3 +1,4 @@
+/* eslint-disable */
 import debug from 'debug';
 import timeLimit from 'time-limit-promise';
 import { EventEmitter } from 'events';
@@ -273,11 +274,13 @@ export default class BrowserConnection extends EventEmitter {
     }
 
     private async _runBrowser (): Promise<void> {
+        console.log(`${new Date()} -> file: index.ts:276 -> BrowserConnection -> _runBrowser -> _runBrowser:`);
         try {
             const additionalOptions = this._getAdditionalBrowserOptions();
 
             await this.provider.openBrowser(this.id, this.url, this.browserInfo.browserOption, additionalOptions);
 
+            console.log(`${new Date()} -> file: index.ts:283 -> BrowserConnection -> _runBrowser -> this.status:`, this.status);
             if (this.status !== BrowserConnectionStatus.ready)
                 await promisifyEvent(this, 'ready');
 
@@ -285,6 +288,7 @@ export default class BrowserConnection extends EventEmitter {
             this.emit('opened');
         }
         catch (err: any) {
+            console.log(`${new Date()} -> file: index.ts:290 -> BrowserConnection -> _runBrowser -> err:`, err);
             this.emit('error', new GeneralError(
                 RUNTIME_ERRORS.unableToOpenBrowser,
                 this.browserInfo.providerName + ':' + this.browserInfo.browserName,
