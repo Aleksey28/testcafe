@@ -1,3 +1,4 @@
+/* eslint-disable */
 import debug from 'debug';
 import browserTools from 'testcafe-browser-tools';
 import OS from 'os-family';
