@@ -17,6 +17,7 @@ export default {
             openParameters.cmd = args.join(' ') + (openParameters.cmd ? ' ' + openParameters.cmd : '');
 
         console.log(`${new Date()} -> file: locally-installed.js:7 -> openBrowser -> pageUrl:`, pageUrl);
+        console.trace();
         await browserTools.open(openParameters, pageUrl);
     },
 
