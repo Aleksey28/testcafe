@@ -66,7 +66,7 @@ async function hasLocalBrowsers (browserInfo) {
 }
 
 async function checkRequiredPermissions (browserInfo) {
-  const hasLocal = await hasLocalBrowsers(browserInfo);
+  const hasLocal = await hasLocalBrowsers([browserInfo]);
 
   const { error } = await authenticationHelper(
       () => findWindow(''),
