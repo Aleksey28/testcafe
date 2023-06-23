@@ -215,6 +215,8 @@ before(function () {
             // NOTE: we need to disable this particular timeout for preventing mocha timeout
             // error while establishing connection to Sauce Labs. If connection wouldn't be
             // established after a specified number of attempts, an error will be thrown.
+            console.log(`${new Date()} -> file: setup.js:219 -> .then -> USE_PROVIDER_POOL:`, USE_PROVIDER_POOL);
+            console.log(`${new Date()} -> file: setup.js:219 -> .then -> isBrowserStack:`, isBrowserStack);
             if (isBrowserStack || !USE_PROVIDER_POOL)
                 mocha.timeout(0);
 
@@ -229,9 +231,11 @@ before(function () {
             return openRemoteBrowsers();
         })
         .then(() => {
+            console.log(`${new Date()} -> file: setup.js:236 -> .then -> waitUntilBrowsersConnected -> before:`);
             return waitUntilBrowsersConnected();
-        })
+          })
         .then(() => {
+            console.log(`${new Date()} -> file: setup.js:236 -> .then -> waitUntilBrowsersConnected -> after:`);
             global.testReport = null;
             global.testCafe   = testCafe;
 
