@@ -51,18 +51,25 @@ const REMOTE_CONNECTORS_MAP = {
 
 const USE_PROVIDER_POOL = config.useLocalBrowsers || isBrowserStack;
 
+async function createTestcafeBrowserTools() {
+  try {
+    const res = await findWindow('');
+    console.log(`${new Date()} -> file: setup.js:57 -> createTestcafeBrowserTools -> res:`, res);
+  } catch (e) {
+    console.log(`${new Date()} -> file: setup.js:58 -> createTestcafeBrowserTools -> e:`, e);
+  }
+
+  return Promise.resolve();
+}
+
 function getBrowserInfo (settings) {
     console.log(`${new Date()} -> file: setup.js:55 -> getBrowserInfo -> settings:`, settings);
     return Promise
         .resolve()
         .then(() => {
           console.log(`${new Date()} -> file: setup.js:65 -> .then -> OS.mac:`, OS.mac);
-          try {
             if (OS.mac)
-              return findWindow('');
-          } catch (e) {
-            console.log(`${new Date()} -> file: setup.js:62 -> .then -> e:`, e);
-          }
+              return createTestcafeBrowserTools();
 
           return Promise.resolve();
         })
