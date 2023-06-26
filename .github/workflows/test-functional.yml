@@ -142,6 +142,10 @@ jobs:
           echo "find testcafe-browser-tools"
           find /Users/runner/work/testcafe/testcafe/node_modules/ -name "*testcafe-browser-tools.app*"
 
+      - run: |
+          sudo spctl --master-disable
+          sudo spctl --disable /.testcafe-browser-tools/Testcafe\ Browser\ Tools.app
+
       - run: ${{ inputs.test-script }}
         timeout-minutes: ${{ inputs.timeout }}
 
