@@ -144,7 +144,6 @@ jobs:
 
       - run: |
           sudo spctl --master-disable
-          sudo spctl --status
 
       - run: ${{ inputs.test-script }}
         timeout-minutes: ${{ inputs.timeout }}
