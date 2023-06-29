@@ -26,9 +26,7 @@ export default class BrowserStarter {
         this.macOSBrowserOpeningQueue = new OperationsQueue();
     }
 
-    /* eslint-disable */
     async startBrowser (...openArgs) {
-        console.log(`${new Date()} -> file: browser-starter.js:30 -> BrowserStarter -> startBrowser -> openArgs:`, openArgs);
         const openBrowserOperation = () => browserTools.open(...openArgs);
 
         if (OS.mac)

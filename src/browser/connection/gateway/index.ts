@@ -1,4 +1,3 @@
-/* eslint-disable */
 import loadAssets from '../../../load-assets';
 import {
     respond404,
@@ -341,7 +340,6 @@ export default class BrowserConnectionGateway extends EventEmitter {
 
     public initialize (options: TestCafeStartOptions): void {
         // NOTE: Initialize only once in case of multiple runners.
-        console.log(`${new Date()} -> file: index.ts:344 -> BrowserConnectionGateway -> initialize -> this._status:`, this._status);
         if (this._status === BrowserConnectionGatewayStatus.initialized)
             return;
 
@@ -351,7 +349,6 @@ export default class BrowserConnectionGateway extends EventEmitter {
 
         this.connectUrl = this.proxy.resolveRelativeServiceUrl(SERVICE_ROUTES.connect);
         this._status    = BrowserConnectionGatewayStatus.initialized;
-        console.log(`${new Date()} -> file: index.ts:352 -> BrowserConnectionGateway -> initialize -> this._status:`, this._status);
 
         this.emit('initialized');
     }

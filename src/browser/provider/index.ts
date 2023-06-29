@@ -1,4 +1,3 @@
-/* eslint-disable */
 import debug from 'debug';
 import browserTools from 'testcafe-browser-tools';
 import OS from 'os-family';
@@ -112,7 +111,6 @@ export default class BrowserProvider {
     }
 
     private _getMaxScreenSize (browserId: string): Size | null {
-        console.log(`${new Date()} -> file: index.ts:115 -> BrowserProvider -> _getMaxScreenSize -> browserId:`, browserId);
         return this.localBrowsersInfo[browserId] && this.localBrowsersInfo[browserId].maxScreenSize;
     }
 
@@ -156,7 +154,6 @@ export default class BrowserProvider {
     }
 
     private async _calculateMacSizeLimits (browserId: string): Promise<void> {
-        console.log(`${new Date()} -> file: index.ts:159 -> BrowserProvider -> _calculateMacSizeLimits -> browserId:`, browserId);
         if (!this._isBrowserIdle(browserId))
             return;
 
@@ -175,13 +172,10 @@ export default class BrowserProvider {
             return;
 
         await this._ensureLocalBrowserInfo(browserId);
-        console.log(`${new Date()} -> file: index.ts:204 -> BrowserProvider -> _ensureBrowserWindowDescriptor -> browserId:`, browserId);
 
         // NOTE: delay to ensure the window finished the opening
         await this.plugin.waitForConnectionReady(browserId);
-        console.log(`${new Date()} -> file: index.ts:182 -> BrowserProvider -> _ensureBrowserWindowDescriptor -> browserId:`, browserId);
         await delay(BROWSER_OPENING_DELAY);
-        console.log(`${new Date()} -> file: index.ts:206 -> BrowserProvider -> _ensureBrowserWindowDescriptor -> BROWSER_OPENING_DELAY:`, BROWSER_OPENING_DELAY);
 
         if (this.localBrowsersInfo[browserId]) {
             const connection     = BrowserConnection.getById(browserId) as BrowserConnection;
@@ -189,10 +183,8 @@ export default class BrowserProvider {
 
             try {
                 windowDescriptor = await this._findWindow(browserId);
-                console.log(`${new Date()} -> file: index.ts:192 -> BrowserProvider -> _ensureBrowserWindowDescriptor -> browserId:`, browserId);
             }
             catch (err: any) {
-                console.log(`${new Date()} -> file: index.ts:195 -> BrowserProvider -> _ensureBrowserWindowDescriptor -> err:`, err);
                 // NOTE: We can suppress the error here since we can just disable window manipulation functions
                 // when we cannot find a local window descriptor
                 DEBUG_LOGGER(err);
@@ -208,9 +200,7 @@ export default class BrowserProvider {
     }
 
     private async _ensureBrowserWindowParameters (browserId: string): Promise<void> {
-        console.log(`${new Date()} -> file: index.ts:204 -> BrowserProvider -> _ensureBrowserWindowParameters -> browserId:`, browserId);
         await this._ensureBrowserWindowDescriptor(browserId);
-        console.log(`${new Date()} -> file: index.ts:212 -> BrowserProvider -> _ensureBrowserWindowParameters -> after ensure descriptor:`, browserId);
 
         if (OS.win && !this._getResizeCorrections(browserId))
             await this._calculateResizeCorrections(browserId);
@@ -271,11 +261,8 @@ export default class BrowserProvider {
     }
 
     public async canUseDefaultWindowActions (browserId: string): Promise<boolean> {
-        console.log(`${new Date()} -> file: index.ts:265 -> BrowserProvider -> canUseDefaultWindowActions -> browserId:`, browserId);
         const isLocalBrowser    = await this.plugin.isLocalBrowser(browserId);
-        console.log(`${new Date()} -> file: index.ts:268 -> BrowserProvider -> canUseDefaultWindowActions -> isLocalBrowser:`, isLocalBrowser);
         const isHeadlessBrowser = await this.plugin.isHeadlessBrowser(browserId);
-        console.log(`${new Date()} -> file: index.ts:270 -> BrowserProvider -> canUseDefaultWindowActions -> isHeadlessBrowser:`, isHeadlessBrowser);
 
         return isLocalBrowser && !isHeadlessBrowser;
     }
@@ -283,7 +270,6 @@ export default class BrowserProvider {
     public async init (): Promise<void> {
         const initialized = await this.initPromise;
 
-        console.log(`${new Date()} -> file: index.ts:289 -> BrowserProvider -> init -> !!initialized:`, !!initialized);
         if (initialized)
             return;
 
@@ -304,7 +290,6 @@ export default class BrowserProvider {
     public async dispose (): Promise<void> {
         const initialized = await this.initPromise;
 
-        console.log(`${new Date()} -> file: index.ts:292 -> BrowserProvider -> dispose -> !!initialized:`, !!initialized);
 
         if (!initialized)
             return;
@@ -338,15 +323,9 @@ export default class BrowserProvider {
         return await this.plugin.getOSInfo(browserId);
     }
 
-    /* eslint-disable */
     public async openBrowser (browserId: string, pageUrl: string, browserOption: unknown, additionalOptions: OpenBrowserAdditionalOptions): Promise<void> {
-        console.log(`${new Date()} -> file: index.ts:327 -> BrowserProvider -> openBrowser -> browserId -> before open:`, browserId);
         await this.plugin.openBrowser(browserId, pageUrl, browserOption, additionalOptions);
-        console.log(`${new Date()} -> file: index.ts:327 -> BrowserProvider -> openBrowser -> browserId -> after open:`, browserId);
-
-        console.log(`${new Date()} -> file: index.ts:340 -> BrowserProvider -> openBrowser -> browserId -> before ensure:`, browserId);
         await this._ensureRetryTestPagesWarning(browserId);
-        console.log(`${new Date()} -> file: index.ts:340 -> BrowserProvider -> openBrowser -> browserId -> after ensure:`, browserId);
 
         if (await this.canUseDefaultWindowActions(browserId))
             await this._ensureBrowserWindowParameters(browserId);
@@ -360,11 +339,8 @@ export default class BrowserProvider {
 
         if (usePluginsCloseBrowser)
             await this.plugin.closeBrowser(browserId, data);
-        else {
-            // console.trace();
-            console.log(`${new Date()} -> file: index.ts:346 -> BrowserProvider -> closeBrowser -> browserId:`, browserId);
+        else
             await this._closeLocalBrowser(browserId);
-        }
 
         if (canUseDefaultWindowActions)
             delete this.localBrowsersInfo[browserId];
