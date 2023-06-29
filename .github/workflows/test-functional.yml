@@ -158,18 +158,6 @@ jobs:
           ls -a /Users/runner/work
         if: ${{ always() }}
 
-      - run: |
-          sudo "/Library/Application Support/VMware Tools/vmware-resolutionSet" 1920 1080
-          sleep 5
-        if: ${{ always() }}
-      - run: screencapture -T0 -V 5 foo.mov
-        if: ${{ always() }}
-      - uses: actions/upload-artifact@v3
-        with:
-            name: latest
-            path: foo.mov
-        if: ${{ always() }}
-
       - name: 'Stop BrowserStackLocal'
         if: ${{ inputs.is-browserstack }}
         uses: 'browserstack/github-actions/setup-local@master'
