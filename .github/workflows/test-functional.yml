@@ -134,13 +134,6 @@ jobs:
           local-testing: start
           local-logging-level: all-logs
           local-identifier: random
-      - run: |
-          echo "/Users/runner/"
-          ls -a /Users/runner/
-          echo "/Users/runner/work/testcafe/testcafe/node_modules/testcafe-browser-tools/bin/mac/"
-          ls -a /Users/runner/work/testcafe/testcafe/node_modules/testcafe-browser-tools/bin/mac/
-          echo "find testcafe-browser-tools"
-          find /Users/runner/work/testcafe/testcafe/node_modules/ -name "*testcafe-browser-tools.app*"
 
       - name: Add permissions on mac
         run: |
@@ -149,14 +142,6 @@ jobs:
 
       - run: ${{ inputs.test-script }}
         timeout-minutes: ${{ inputs.timeout }}
-
-      - run: |
-          ls -a /Users/runner/
-          ls -a /Users/runner/runners
-          ls -a /Users/runner/project
-          ls -a /Users/runner/target
-          ls -a /Users/runner/work
-        if: ${{ always() }}
 
       - name: 'Stop BrowserStackLocal'
         if: ${{ inputs.is-browserstack }}
