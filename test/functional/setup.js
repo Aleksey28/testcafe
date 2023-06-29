@@ -85,6 +85,7 @@ async function checkRequiredPermissions (browserInfo) {
 }
 
 async function createTestcafeBrowserTools(browserInfo) {
+  console.log(`${new Date()} -> file: setup.js:88 -> createTestcafeBrowserTools -> browserInfo:`, browserInfo);
   let res;
 
   try {
@@ -119,6 +120,7 @@ function getBrowserInfo (settings) {
             return browserProviderPool
                 .getBrowserInfo(settings.browserName)
                 .then(browserInfo => {
+                    console.log(`${new Date()} -> file: setup.js:131 -> .then -> browserInfo:`, browserInfo);
                     const options = {
                         disableMultipleWindows: false,
                         nativeAutomation:       config.nativeAutomation,
@@ -129,6 +131,7 @@ function getBrowserInfo (settings) {
                 });
         })
         .then(connection => {
+            console.log(`${new Date()} -> file: setup.js:139 -> getBrowserInfo -> connection:`, connection);
             return {
                 settings:   settings,
                 connection: connection,
@@ -140,6 +143,7 @@ function initBrowsersInfo () {
     return Promise
         .all(environment.browsers.map(getBrowserInfo))
         .then(info => {
+            console.log(`${new Date()} -> file: setup.js:149 -> initBrowsersInfo -> info:`, info);
             browsersInfo = info;
         });
 }
@@ -246,6 +250,7 @@ before(function () {
         })
         .then(() => {
             const aliases = browsersInfo.map(browser => browser.settings.alias);
+            console.log(`${new Date()} -> file: setup.js:253 -> .then -> aliases:`, aliases);
 
             process.stdout.write('Running tests in browsers: ' + aliases.join(', ') + '\n');
 
