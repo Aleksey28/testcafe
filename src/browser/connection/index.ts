@@ -1,4 +1,3 @@
-/* eslint-disable */
 import debug from 'debug';
 import timeLimit from 'time-limit-promise';
 import { EventEmitter } from 'events';
@@ -274,14 +273,12 @@ export default class BrowserConnection extends EventEmitter {
     }
 
     private async _runBrowser (): Promise<void> {
-        console.log(`${new Date()} -> file: index.ts:276 -> BrowserConnection -> _runBrowser -> _runBrowser:`);
         try {
             const additionalOptions = this._getAdditionalBrowserOptions();
 
             //Hanging here
             await this.provider.openBrowser(this.id, this.url, this.browserInfo.browserOption, additionalOptions);
 
-            console.log(`${new Date()} -> file: index.ts:283 -> BrowserConnection -> _runBrowser -> this.status:`, this.status);
             if (this.status !== BrowserConnectionStatus.ready)
                 await promisifyEvent(this, 'ready');
 
@@ -289,7 +286,6 @@ export default class BrowserConnection extends EventEmitter {
             this.emit('opened');
         }
         catch (err: any) {
-            console.log(`${new Date()} -> file: index.ts:290 -> BrowserConnection -> _runBrowser -> err:`, err);
             this.emit('error', new GeneralError(
                 RUNTIME_ERRORS.unableToOpenBrowser,
                 this.browserInfo.providerName + ':' + this.browserInfo.browserName,
@@ -326,8 +322,6 @@ export default class BrowserConnection extends EventEmitter {
     private _waitForHeartbeat (): void {
         this.heartbeatTimeout = setTimeout(() => {
             const err = this._createBrowserDisconnectedError();
-            
-            console.log(`${new Date()} -> file: index.ts:329 -> BrowserConnection -> this.heartbeatTimeout=setTimeout -> err:`, err);
 
             this.status         = BrowserConnectionStatus.disconnected;
             this.testRunAborted = true;
@@ -505,8 +499,6 @@ export default class BrowserConnection extends EventEmitter {
     }
 
     public async close (): Promise<void> {
-        console.log(`${new Date()} -> file: index.ts:506 -> BrowserConnection -> close -> this.status:`, this.status);
-        // console.trace();
         if (this.status === BrowserConnectionStatus.closing || this.status === BrowserConnectionStatus.closed)
             return;
 
@@ -530,7 +522,6 @@ export default class BrowserConnection extends EventEmitter {
         const osInfo = await this.provider.getOSInfo(this.id);
 
         this.status                      = BrowserConnectionStatus.ready;
-        console.log(`${new Date()} -> file: index.ts:531 -> BrowserConnection -> establish -> status:`, status);
         this.browserInfo.parsedUserAgent = parseUserAgent(userAgent, osInfo);
 
         this._waitForHeartbeat();
@@ -588,7 +579,6 @@ export default class BrowserConnection extends EventEmitter {
             this.emit('idle');
         }
 
-        console.log(`${new Date()} -> file: index.ts:592 -> BrowserConnection -> getStatus -> this.status:`, this.status);
         if (this.status === BrowserConnectionStatus.opened) {
             const nextTestRunInfo = await this._getTestRunInfo(isTestDone || this.testRunAborted);
 
@@ -645,7 +635,6 @@ export default class BrowserConnection extends EventEmitter {
     }
 
     public initialize (): void {
-        console.log(`${new Date()} -> file: index.ts:643 -> BrowserConnection -> initialize -> initialize:`);
         this._buildCommunicationUrls(this.browserConnectionGateway.proxy);
 
         process.nextTick(() => this._runBrowser());

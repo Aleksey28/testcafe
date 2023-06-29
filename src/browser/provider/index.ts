@@ -290,7 +290,6 @@ export default class BrowserProvider {
     public async dispose (): Promise<void> {
         const initialized = await this.initPromise;
 
-
         if (!initialized)
             return;
 
@@ -325,6 +324,7 @@ export default class BrowserProvider {
 
     public async openBrowser (browserId: string, pageUrl: string, browserOption: unknown, additionalOptions: OpenBrowserAdditionalOptions): Promise<void> {
         await this.plugin.openBrowser(browserId, pageUrl, browserOption, additionalOptions);
+
         await this._ensureRetryTestPagesWarning(browserId);
 
         if (await this.canUseDefaultWindowActions(browserId))
