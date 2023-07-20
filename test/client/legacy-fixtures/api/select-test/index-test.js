@@ -21,7 +21,7 @@ const initAutomation = testCafeLegacyRunner.get('./init-automation');
 initAutomation();
 
 const correctTestWaitingTime = function (time) {
-    if (featureDetection.isTouchDevice || featureDetection.hasTouchPoints)
+    if (featureDetection.isTouchDevice)
         return time * 2;
 
     return time;
