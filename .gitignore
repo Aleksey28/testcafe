@@ -10,7 +10,6 @@
 ___test-videos___
 /screenshots
 yarn.lock
-package-lock.json
 Gemfile.lock
 .npmrc
 .DS_Store
