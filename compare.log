@@ -1,0 +1,350 @@
+testcafe:reporter begin dispatchToPlugin method: reportTaskStart
+[
+  2023-08-25T14:48:10.466Z,
+  [ 'Safari 16.6 / Ventura 13' ],
+  1,
+  [ { fixture: [Object] } ],
+  {
+    configuration: {
+      hostname: '127.0.0.1',
+      port1: 9000,
+      port2: 9001,
+      developmentMode: false,
+      retryTestPages: false,
+      userVariables: [Object],
+      esm: false,
+      disableNativeAutomation: true,
+      reporter: [Array],
+      proxy: undefined,
+      proxyBypass: undefined,
+      browsers: [Array],
+      filter: [Function (anonymous)],
+      src: [Array],
+      screenshots: [Object],
+      videoPath: '',
+      videoOptions: undefined,
+      videoEncodingOptions: undefined,
+      appCommand: undefined,
+      appInitDelay: 1000,
+      clientScripts: [],
+      compilerOptions: [Object],
+      skipJsErrors: false,
+      quarantineMode: undefined,
+      selectorTimeout: 200,
+      assertionTimeout: 1000,
+      pageLoadTimeout: 0,
+      speed: 1,
+      stopOnFirstFail: false,
+      skipUncaughtErrors: false,
+      disablePageCaching: false,
+      disablePageReloads: false,
+      disableScreenshots: false,
+      disableMultipleWindows: false,
+      pageRequestTimeout: undefined,
+      ajaxRequestTimeout: undefined,
+      tsConfigPath: undefined,
+      hooks: undefined,
+      testExecutionTimeout: undefined,
+      runExecutionTimeout: undefined,
+      baseUrl: undefined,
+      customActions: undefined,
+      nativeAutomation: false,
+      debugMode: false,
+      debugOnFail: false,
+      takeScreenshotsOnFails: false,
+      concurrency: 1,
+      disableHttp2: false,
+      disableCrossDomain: false,
+      debugLogger: [Object]
+    }
+  }
+]
+testcafe:reporter end dispatchToPlugin method: reportTaskStart
+testcafe:reporter begin dispatchToPlugin method: reportFixtureStart
+[
+  'ClientFunction',
+  '/Users/runner/work/testcafe/testcafe/test/functional/fixtures/api/es-next/client-function/testcafe-fixtures/client-fn-test.js',
+  {}
+]
+testcafe:reporter end dispatchToPlugin method: reportFixtureStart
+testcafe:runner:test-run-controller start Bp8Bs0vjB {
+  test: { name: 'Error in Promise', id: 'PTin4zh' },
+  connection: { userAgent: 'Safari 16.6 / Ventura 13', id: 'eEDo-Ze' }
+} undefined
+testcafe:hammerhead:proxy request {
+  requestId: 'B3UH0moCr',
+  method: 'GET',
+  url: '/slDLO2MNx/http://localhost:3000/fixtures/api/es-next/client-function/pages/index.html',
+  headers: {
+    host: '127.0.0.1:9000',
+    'sec-fetch-site': 'same-origin',
+    'accept-encoding': 'gzip, deflate',
+    connection: 'keep-alive',
+    'upgrade-insecure-requests': '1',
+    'sec-fetch-mode': 'navigate',
+    accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Safari/605.1.15',
+    referer: 'http://127.0.0.1:9000/browser/idle/eEDo-Ze',
+    'sec-fetch-dest': 'document',
+    'accept-language': 'en-US,en;q=0.9'
+  }
+}
+testcafe:hammerhead:destination {
+  requestId: 'B3UH0moCr',
+  method: 'GET',
+  url: 'http://localhost:3000/fixtures/api/es-next/client-function/pages/index.html',
+  headers: {
+    host: 'localhost:3000',
+    'sec-fetch-site': 'same-origin',
+    'accept-encoding': 'gzip, deflate',
+    connection: 'keep-alive',
+    'upgrade-insecure-requests': '1',
+    'sec-fetch-mode': 'navigate',
+    accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Safari/605.1.15',
+    'sec-fetch-dest': 'document',
+    'accept-language': 'en-US,en;q=0.9'
+  }
+}
+testcafe:hammerhead:destination response {
+  requestId: 'B3UH0moCr',
+  statusCode: 200,
+  headers: {
+    'x-powered-by': 'Express',
+    'access-control-allow-origin': '*',
+    'content-type': 'text/html',
+    'cache-control': 'max-age=3600',
+    'content-length': '350',
+    etag: 'W/"15e-sKw3W8IJU0eeoxBAuqFgEJVideI"',
+    date: 'Fri, 25 Aug 2023 14:48:10 GMT',
+    connection: 'keep-alive',
+    'keep-alive': 'timeout=5'
+  }
+}
+testcafe:hammerhead:proxy resource content info B3UH0moCr { isPage, charset: iso-8859-1, encoding: , requireProcessing: true }
+testcafe:hammerhead:destination:socket socket first chunk of data {
+  requestId: 'B3UH0moCr',
+  length: 626,
+  data: '"HTTP/1.1 200 OK\\r\\nX-Powered-By: Express\\r\\nAccess-Control-Allow-Origin: *\\r\\ncontent-type: text/html\\r\\ncache-control: max-age=3600\\r\\nContent-Length: 350\\r\\nETag: W/\\"15e-sKw3W8IJU0eeoxBAuqFgEJVideI\\"\\r\\nDate: Fri, 25 Aug 2023 14:48:10 GMT\\r\\nConnection: keep-alive\\r\\nKeep-Alive: timeout=5\\r\\n\\r\\n<!DOCTYPE html>\\n<html lang=\\"en\\">\\n<head>\\n    <meta charset=\\"UTF-8\\">\\n    <title>Title</title>\\n</head>\\n<body>\\n<div class=\\"answer\\">\\n    41\\n</div>\\n\\n<div class=\\"answer\\">\\n    42\\n</div>\\n\\n<span class=\\"item\\">One</span>\\n<span class=\\"item\\">Two</span>\\n<span class=\\"item\\">Three</span>\\n<span class=\\"item\\">Four</span>\\n\\n<span class=\\"four\\">42!</span>\\n\\n</body>\\n</html>\\n"'
+}
+testcafe:hammerhead:proxy response {
+  requestId: 'B3UH0moCr',
+  statusCode: 200,
+  headers: {
+    'x-powered-by': 'Express',
+    'access-control-allow-origin': 'http://127.0.0.1:9001',
+    'content-type': 'text/html',
+    'cache-control': 'max-age=3600',
+    'content-length': '1882',
+    etag: 'W/"15e-sKw3W8IJU0eeoxBAuqFgEJVideI"',
+    date: 'Fri, 25 Aug 2023 14:48:10 GMT',
+    connection: 'keep-alive',
+    'keep-alive': 'timeout=5',
+    'set-cookie': []
+  }
+}
+testcafe:hammerhead:proxy send response body {
+  requestId: 'B3UH0moCr',
+  body: '<!DOCTYPE html><html lang="en"><head><meta class="charset-hammerhead-shadow-ui" charset="utf-8">\n' +
+    '    <meta charset="UTF-8">\n' +
+    '    <title>Title</title>\n' +
+    '<link rel="stylesheet" type="text/css" class="ui-stylesheet-hammerhead-shadow-ui" href="http://127.0.0.1:9000/testcafe-ui-styles.css"><script type="text/javascript" class="script-hammerhead-shadow-ui" charset="UTF-8" src="http://127.0.0.1:9000/hammerhead.js"></script><script type="text/javascript" class="script-hammerhead-shadow-ui" charset="UTF-8" src="http://127.0.0.1:9000/testcafe-core.js"></script><script type="text/javascript" class="script-hammerhead-shadow-ui" charset="UTF-8" src="http://127.0.0.1:9000/testcafe-ui.js"></script><script type="text/javascript" class="script-hammerhead-shadow-ui" charset="UTF-8" src="http://127.0.0.1:9000/testcafe-automation.js"></script><script type="text/javascript" class="script-hammerhead-shadow-ui" charset="UTF-8" src="http://127.0.0.1:9000/testcafe-driver.js"></script><script type="text/javascript" class="script-hammerhead-shadow-ui" charset="UTF-8" src="http://127.0.0.1:9000/task.js"></script><script class="self-removing-script-hammerhead-shadow-ui">(function () {var currentScript = document.currentScript;currentScript.parentNode.removeChild(currentScript);window["%hammerhead%"].sandbox.node.onOriginFirstTitleElementInHeadLoaded();})();</script></head>\n' +
+    '<body><script class="self-removing-script-hammerhead-shadow-ui">(function () {var currentScript = document.currentScript;currentScript.parentNode.removeChild(currentScript);if (window["%hammerhead%"])window["%hammerhead%"].sandbox.node.raiseBodyCreatedEvent();})();</script>\n' +
+    '<div class="answer">\n' +
+    '    41\n' +
+    '</div>\n' +
+    '\n' +
+    '<div class="answer">\n' +
+    '    42\n' +
+    '</div>\n' +
+    '\n' +
+    '<span class="item">One</span>\n' +
+    '<span class="item">Two</span>\n' +
+    '<span class="item">Three</span>\n' +
+    '<span class="item">Four</span>\n' +
+    '\n' +
+    '<span class="four">42!</span>\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '</body></html>'
+}
+testcafe:test-run:Safari 16.6 / Ventura 13:driver-message 
+    {
+      cmd: 'ready',
+      status: {
+        id: '166',
+        isCommandResult: false,
+        executionError: null,
+        pageError: null,
+        resent: false,
+        result: null,
+        consoleMessages: {
+          null: [Object]
+        },
+        isPendingWindowSwitching: false,
+        isObservingFileDownloadingInNewWindow: false,
+        isFirstRequestAfterWindowSwitching: false,
+        warnings: null
+      },
+      disableResending: true,
+      allowRejecting: true,
+      sessionId: 'slDLO2MNx'
+    }
+
+testcafe:test-run:Safari 16.6 / Ventura 13:command 
+    ExecuteClientFunctionCommand {
+      type: 'execute-client-function',
+      actionId: '-emsiJz',
+      instantiationCallsiteName: 'ClientFunction',
+      fnCode: '(function(){ var func = function func() {\n' +
+        '  return Promise.resolve().then(function () {\n' +
+        "    throw new Error('42');\n" +
+        '  });\n' +
+        '}; return func;})();',
+      args: [
+        []
+      ],
+      dependencies: [
+        [Object: null prototype] {}
+      ]
+    }
+
+testcafe:hammerhead:service-message {"cmd":"ready","status":{"id":"166","isCommandResult":false,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{"null":{"log":[],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isObservingFileDownloadingInNewWindow":false,"isFirstRequestAfterWindowSwitching":false,"warnings":null},"disableResending":true,"allowRejecting":true,"sessionId":"slDLO2MNx"}, result {"type":"execute-client-function","actionId":"-emsiJz","instantiationCallsiteName":"ClientFunction","fnCode":"(function(){ var func = function func() {\n  return Promise.resolve().then(function () {\n    throw new Error('42');\n  });\n}; return func;})();","args":[[]],"dependencies":[{}]}
+testcafe:test-run:Safari 16.6 / Ventura 13:driver-message 
+    {
+      cmd: 'ready',
+      status: {
+        id: '221',
+        isCommandResult: true,
+        executionError: {
+          code: 'E4',
+          isTestCafeError: true,
+          callsite: null,
+          errMsg: 'Error: 42',
+          instantiationCallsiteName: 'ClientFunction'
+        },
+        pageError: null,
+        resent: false,
+        result: null,
+        consoleMessages: {},
+        isPendingWindowSwitching: false,
+        isObservingFileDownloadingInNewWindow: false,
+        isFirstRequestAfterWindowSwitching: false,
+        warnings: null
+      },
+      disableResending: true,
+      allowRejecting: true,
+      sessionId: 'slDLO2MNx'
+    }
+
+testcafe:errors processTestFnError: {
+  code: 'E4',
+  isTestCafeError: true,
+  callsite: CallsiteRecord {
+    filename: '/Users/runner/work/testcafe/testcafe/test/functional/fixtures/api/es-next/client-function/testcafe-fixtures/client-fn-test.js',
+    lineNum: 133,
+    callsiteFrameIdx: 3,
+    stackFrames: [
+      [Object],    [Object],
+      [Object],    [Object],
+      CallSite {}, [Object],
+      [Object],    [Object],
+      CallSite {}, [Object],
+      [Object],    [Object],
+      [Object],    [Object],
+      [Object],    [Object],
+      [Object]
+    ],
+    isV8Frames: true
+  },
+  errMsg: 'Error: 42',
+  instantiationCallsiteName: 'ClientFunction'
+}
+testcafe:errors processTestFnError: {
+  code: 'E4',
+  isTestCafeError: true,
+  callsite: CallsiteRecord {
+    filename: '/Users/runner/work/testcafe/testcafe/test/functional/fixtures/api/es-next/client-function/testcafe-fixtures/client-fn-test.js',
+    lineNum: 133,
+    callsiteFrameIdx: 3,
+    stackFrames: [
+      [Object],    [Object],
+      [Object],    [Object],
+      CallSite {}, [Object],
+      [Object],    [Object],
+      CallSite {}, [Object],
+      [Object],    [Object],
+      [Object],    [Object],
+      [Object],    [Object],
+      [Object]
+    ],
+    isV8Frames: true
+  },
+  errMsg: 'Error: 42',
+  instantiationCallsiteName: 'ClientFunction',
+  id: 'Npmeayl'
+}
+testcafe:test-run:Safari 16.6 / Ventura 13:command 
+    TestDoneCommand {
+      type: 'test-done'
+    }
+
+testcafe:hammerhead:service-message {"cmd":"ready","status":{"id":"221","isCommandResult":true,"executionError":{"code":"E4","isTestCafeError":true,"callsite":{"filename":"/Users/runner/work/testcafe/testcafe/test/functional/fixtures/api/es-next/client-function/testcafe-fixtures/client-fn-test.js","lineNum":133,"callsiteFrameIdx":3,"stackFrames":[{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}],"isV8Frames":true},"errMsg":"Error: 42","instantiationCallsiteName":"ClientFunction","id":"Npmeayl"},"pageError":null,"resent":false,"result":null,"consoleMessages":{},"isPendingWindowSwitching":false,"isObservingFileDownloadingInNewWindow":false,"isFirstRequestAfterWindowSwitching":false,"warnings":null},"disableResending":true,"allowRejecting":true,"sessionId":"slDLO2MNx"}, result {"type":"test-done"}
+testcafe:test-run:Safari 16.6 / Ventura 13:driver-message 
+    {
+      cmd: 'ready',
+      status: {
+        id: '234',
+        isCommandResult: true,
+        executionError: null,
+        pageError: null,
+        resent: false,
+        result: null,
+        consoleMessages: {},
+        isPendingWindowSwitching: false,
+        isObservingFileDownloadingInNewWindow: false,
+        isFirstRequestAfterWindowSwitching: false,
+        warnings: null
+      },
+      disableResending: true,
+      allowRejecting: true,
+      sessionId: 'slDLO2MNx'
+    }
+
+testcafe:hammerhead:service-message {"cmd":"ready","status":{"id":"234","isCommandResult":true,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{},"isPendingWindowSwitching":false,"isObservingFileDownloadingInNewWindow":false,"isFirstRequestAfterWindowSwitching":false,"warnings":null},"disableResending":true,"allowRejecting":true,"sessionId":"slDLO2MNx"}, result "test-done-confirmation"
+testcafe:reporter begin dispatchToPlugin method: reportTestDone
+[
+  'Error in Promise',
+  {
+    errs: [ [TestRunErrorFormattableAdapter] ],
+    warnings: [],
+    reportData: { slDLO2MNx: [] },
+    durationMs: 250,
+    unstable: false,
+    screenshotPath: null,
+    screenshots: [],
+    videos: [],
+    quarantine: null,
+    skipped: false,
+    browsers: [ [Object] ],
+    testId: 'PTin4zh',
+    fixture: {
+      id: 'cCSjqLC',
+      name: 'ClientFunction',
+      path: '/Users/runner/work/testcafe/testcafe/test/functional/fixtures/api/es-next/client-function/testcafe-fixtures/client-fn-test.js',
+      meta: {}
+    }
+  },
+  {}
+]
+testcafe:reporter end dispatchToPlugin method: reportTestDone
+testcafe:runner:test-run-controller done Bp8Bs0vjB
+testcafe:reporter begin dispatchToPlugin method: reportTaskDone
+[
+  2023-08-25T14:48:10.785Z,
+  0,
+  [],
+  { passedCount: 0, failedCount: 1, skippedCount: 0 }
+]
+testcafe:reporter end dispatchToPlugin method: reportTaskDone
