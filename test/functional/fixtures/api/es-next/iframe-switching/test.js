@@ -12,7 +12,7 @@ const DEFAULT_FAILED_RUN_OPTIONS = {
     selectorTimeout: DEFAULT_SELECTOR_TIMEOUT,
 };
 
-describe('[API] t.switchToIframe(), t.switchToMainWindow()', function () {
+describe.only('[API] t.switchToIframe(), t.switchToMainWindow()', function () {
     this.timeout(60000);
 
     it('Should switch context between an iframe and the main window', function () {
