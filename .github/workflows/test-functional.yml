@@ -17,7 +17,7 @@ on:
       matrix-jobs-count:
         required: false
         type: number
-        default: 3
+        default: 1
       display:
         required: false
         type: string
