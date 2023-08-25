@@ -1,3 +1,4 @@
+/* eslint-disable */
 const { expect }                         = require('chai');
 const { errorInEachBrowserContains }     = require('../../../../assertion-helper.js');
 const { skipDescribeInNativeAutomation } = require('../../../../utils/skip-in');
