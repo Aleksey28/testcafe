@@ -1,9 +1,8 @@
-/* eslint-disable */
 const expect             = require('chai').expect;
 const config             = require('../../../../config');
 const { checkUserAgent } = require('../../../../assertion-helper');
 
-describe.only('[API] ClientFunction', function () {
+describe('[API] ClientFunction', function () {
     it('Should be correctly dispatched to test run', function () {
         const browsers = 'chrome,firefox,ie';
 

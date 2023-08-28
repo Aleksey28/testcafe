@@ -17,5 +17,5 @@ jobs:
     with:	
       test-script: 'npx gulp test-functional-local-safari-run --steps-as-tasks'	
       os: 'macos-13'
-      timeout: 15
+      timeout: 40
       retry_failed_tests: true
