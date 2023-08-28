@@ -16,5 +16,5 @@ jobs:
     uses: ./.github/workflows/test-functional.yml
     with:
       os: 'macos-13'
-      timeout: 40
+      timeout: 60
       test-script: 'npx gulp test-functional-local-headless-chrome-run --steps-as-tasks'
