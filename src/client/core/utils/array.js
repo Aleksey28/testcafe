@@ -28,11 +28,32 @@ export function isArray (arg) {
 }
 
 export function from (arg, ...args) {
-    return nativeMethods.arrayFrom(arg, ...args);
+    if (nativeMethods.arrayFrom)
+        return nativeMethods.arrayFrom(arg, ...args);
+
+    // NOTE: this logic is for IE
+    const arr    = [];
+    const length = arg.length;
+
+    for (let i = 0; i < length; i++)
+        arr.push(arg[i]);
+
+    return arr;
 }
 
 export function find (arr, callback) {
-    return nativeMethods.arrayFind.call(arr, callback);
+    if (nativeMethods.arrayFind)
+        return nativeMethods.arrayFind.call(arr, callback);
+
+    // NOTE: this logic is for IE
+    const length = arr.length;
+
+    for (let i = 0; i < length; i++) {
+        if (callback(arr[i], i, arr))
+            return arr[i];
+    }
+
+    return null;
 }
 
 export function remove (arr, item) {
