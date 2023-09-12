@@ -289,11 +289,11 @@ function getSelectedPositionInParentByOffset (node, offset) {
     if (domUtils.isShadowUIElement(node))
         return { node, offset };
 
-    let currentNode          = childNodes[offset];
-    let currentOffset        = 0;
     const childNodes         = nativeMethods.nodeChildNodesGetter.call(node);
     const childCount         = domUtils.getChildNodesLength(childNodes);
     let isSearchForLastChild = offset >= childCount;
+    let currentNode          = childNodes[offset];
+    let currentOffset        = 0;
 
     // NOTE: IE behavior
     // if (isSearchForLastChild)
