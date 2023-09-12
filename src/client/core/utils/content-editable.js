@@ -298,10 +298,10 @@ function getSelectedPositionInParentByOffset (node, offset) {
 
     // NOTE: IE behavior
     // if (isSearchForLastChild)
-    currentNode = childNodes[childCount - 1];
+    // currentNode = childNodes[childCount - 1];
     // else {
-    //     currentNode   = childNodes[offset];
-    //     currentOffset = 0;
+    currentNode   = childNodes[offset];
+    currentOffset = 0;
     // }
 
     // NOTE: skip shadowUI elements
