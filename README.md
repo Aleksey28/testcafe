@@ -3,7 +3,7 @@
      <img src="https://raw.github.com/DevExpress/testcafe/master/media/testcafe-studio-banner.png" alt="Try TestCafe Studio IDE" />
  </a>
 </p>
-
+Test
 <p align="center">
     <a href="https://testcafe.io">
         <img src="https://raw.githubusercontent.com/DevExpress/testcafe/master/media/testcafe-logo.svg?sanitize=true" alt="testcafe" />
