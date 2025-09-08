@@ -111,7 +111,7 @@
     "humanize-duration": "^3.25.0",
     "import-lazy": "^3.1.0",
     "indent-string": "^1.2.2",
-    "is-ci": "^1.0.10",
+    "is-ci": "^4.1.0",
     "is-docker": "^2.0.0",
     "is-glob": "^2.0.1",
     "is-podman": "^1.0.1",
