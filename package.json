@@ -88,7 +88,7 @@
     "bowser": "^2.8.1",
     "callsite": "^1.0.0",
     "chai": "4.3.4",
-    "chalk": "^2.3.0",
+    "chalk": "^5.6.2",
     "chrome-remote-interface": "^0.32.2",
     "coffeescript": "^2.3.1",
     "commander": "^8.3.0",
