@@ -214,7 +214,7 @@
     "gulp-step": "^1.0.1",
     "gulp-uglify": "^3.0.0",
     "license-checker": "^20.0.0",
-    "markdownlint": "^0.34.0",
+    "markdownlint": "^0.41.0",
     "merge-stream": "^1.0.1",
     "minimist": "^1.2.0",
     "mocha-reporter-spec-with-retries": "1.0.0",
